@@ -10,7 +10,7 @@ window.GameController = class extends BaseController
 
     @animator = new GameAnimator(@)
 
-    @snowman = new Snowman(500, 350)
+    @snowman = new Snowman(canvasSize.width / 2, canvasSize.height / 2)
 
   show: ->
     @.setupEventListeners()
