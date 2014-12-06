@@ -30,11 +30,11 @@ window.GameAnimator = class extends Animator
 
     @background_layer.addChild(@background_sprite)
 
-    @object_sprite = @.createObjectSprite(@controller.object)
+    @snowman_sprite = @.createSnowmanSprite()
     @lumberjack_sprite = @.createLumberjackSprite()
     @rabbit_sprite = @.createRabbitSprite()
 
-    @object_layer.addChild(@object_sprite)
+    @object_layer.addChild(@snowman_sprite)
     @object_layer.addChild(@lumberjack_sprite)
     @object_layer.addChild(@rabbit_sprite)
 
@@ -45,11 +45,6 @@ window.GameAnimator = class extends Animator
     unless @paused_at
       @controller.updateState()
 
-      if @movement_animation_started and @.isMovementAnimationFinished()
-        @movement_animation_started = null
-
-        @controller.onMovementAnimationFinished()
-
       @.updateSpriteStates()
 
     super
@@ -57,32 +52,59 @@ window.GameAnimator = class extends Animator
   updateSpriteStates: ->
     return unless @sprites_added
 
+    @snowman_sprite.position.x = @.objectToSceneX(@controller.snowman.x)
+    @snowman_sprite.position.y = @.objectToSceneY(@controller.snowman.y)
 
-    if @controller.object.moving_to
-      if not @movement_animation_started or @.isMovementAnimationFinished()
-        @object_sprite.position.x = @.objectToSceneX(sprite.source.x)
-        @object_sprite.position.y = @.objectToSceneY(sprite.source.y)
-      else
-        progress = @.movementAnimationProgress()
+    speedX = @controller.snowman.speed.x
+    speedY = @controller.snowman.speed.y
 
-        @object_sprite.position.x = @.objectToSceneX(
-          @controller.object.moving_to.x +
-          (1 - progress) * (@object_sprite.source.x - @controller.object.moving_to.x)
-        )
-        @object_sprite.position.y = @.objectToSceneY(
-          @controller.object.moving_to.y +
-          (1 - progress) * (@object_sprite.source.y - @controller.object.moving_to.y)
-        )
+    for key, sprite of @snowman_sprite.directions
+      sprite.visible = switch key
+        when 'down_left'
+          speedX == -1 and speedY == 1
+        when 'left'
+          speedX == -1 and speedY == 0
+        when 'up_left'
+          speedX == -1 and speedY == -1
+        when 'up'
+          speedX == 0 and speedY == -1
+        when 'up_right'
+          speedX == 1 and speedY == -1
+        when 'right'
+          speedX == 1 and speedY == 0
+        when 'down_right'
+          speedX == 1 and speedY == 1
+        else
+          speedX == 0 and (speedY == 1 or speedY == 0)
 
 
-  createObjectSprite: (object)->
-    sprite = PIXI.Sprite.fromFrame("snowman_down_side.png")
-    sprite.position.x = @.objectToSceneX(object.x)
-    sprite.position.y = @.objectToSceneY(object.y)
-    sprite.anchor.x = 0.5
-    sprite.anchor.y = 0.5
-    sprite.source = object
-    sprite
+  createSnowmanSprite: ->
+    container = new PIXI.DisplayObjectContainer()
+    container.position.x = @.objectToSceneX(@controller.snowman.x)
+    container.position.y = @.objectToSceneY(@controller.snowman.y)
+
+    container.directions = {}
+
+    container.directions.down = PIXI.Sprite.fromFrame("snowman_down.png")
+    container.directions.down_left = PIXI.Sprite.fromFrame("snowman_down_side.png")
+    container.directions.left = PIXI.Sprite.fromFrame("snowman_side.png")
+    container.directions.up_left = PIXI.Sprite.fromFrame("snowman_up_side.png")
+    container.directions.up = PIXI.Sprite.fromFrame("snowman_up.png")
+    container.directions.up_right = PIXI.Sprite.fromFrame("snowman_up_side.png")
+    container.directions.up_right.scale.x = -1
+    container.directions.right = PIXI.Sprite.fromFrame("snowman_side.png")
+    container.directions.right.scale.x = -1
+    container.directions.down_right = PIXI.Sprite.fromFrame("snowman_down_side.png")
+    container.directions.down_right.scale.x = -1
+
+    for key, sprite of container.directions
+      sprite.anchor.x = 0.5
+      sprite.anchor.y = 1
+      sprite.visible = false
+
+      container.addChild(sprite)
+
+    container
 
   createLumberjackSprite: (object)->
     sprite = PIXI.Sprite.fromFrame("lumberjack_up_side.png")

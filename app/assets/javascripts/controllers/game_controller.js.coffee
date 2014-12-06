@@ -10,7 +10,7 @@ window.GameController = class extends BaseController
 
     @animator = new GameAnimator(@)
 
-    @object = new GameObject(495, 350)
+    @snowman = new Snowman(500, 350)
 
   show: ->
     @.setupEventListeners()
@@ -34,6 +34,7 @@ window.GameController = class extends BaseController
 
   updateState: ->
     # Logic goes here
+    @snowman.updateState()
 
   updateMousePosition: (event)->
     touchpoint = if event.originalEvent.touches? then event.originalEvent.touches[0] else event
@@ -47,16 +48,12 @@ window.GameController = class extends BaseController
   onTouchStart: (e)=>
     e.preventDefault()
 
-    return if @animator.isBlockingAnimationInProgress()
-
     @.updateMousePosition(e)
 
     # Logic goes here
 
   onTouchMove: (e)=>
     e.preventDefault()
-
-    return if @animator.isBlockingAnimationInProgress()
 
     @.updateMousePosition(e)
 
@@ -65,21 +62,35 @@ window.GameController = class extends BaseController
   onTouchEnd: (e)=>
     e.preventDefault()
 
-    return if @animator.isBlockingAnimationInProgress()
-
     @.updateMousePosition(e)
 
     # Logic goes here
 
-    @object.startMovingTo(@animator.mousePositionToCanvas(@mouse_position))
+  onKeyDown: (e)=>
+    switch e.keyCode
+      when 37, 65 # left
+        @snowman.speed.x = -1
+      when 38, 87 # up
+        @snowman.speed.y = -1
+      when 39, 68 #right
+        @snowman.speed.x = 1
+      when 40, 83 # down
+        @snowman.speed.y = 1
+      else
+        process_default = true
 
-    @animator.animateObjectMovement()
+    e.preventDefault() unless process_default?
 
-  onMovementAnimationFinished: ->
-    # Logic goes here
+  onKeyUp: (e)=>
+    switch e.keyCode
+      when 37, 39, 65, 68 #left, right
+        @snowman.speed.x = 0
+      when 38, 40, 87, 83 # up, down
+        @snowman.speed.y = 0
+      else
+        process_default = true
 
-    @object.finishMovement()
-
+    e.preventDefault() unless process_default?
 
   finish: ->
     @animator.deactivate()
