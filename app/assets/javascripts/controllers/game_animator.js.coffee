@@ -15,8 +15,6 @@ window.GameAnimator = class extends Animator
     @stage.addChild(@background_layer)
     @stage.addChild(@object_layer)
 
-    @object_sprite = null
-
   activate: ->
     return unless super
 
@@ -28,6 +26,10 @@ window.GameAnimator = class extends Animator
     @background_sprite = PIXI.Sprite.fromImage(preloader.paths.background)
 
     @background_layer.addChild(@background_sprite)
+
+    @pine_sprite = @.createPineSprite()
+
+    @object_layer.addChild(@pine_sprite)
 
     @snowman_sprite = @.createSnowmanSprite()
 
@@ -88,6 +90,19 @@ window.GameAnimator = class extends Animator
   sortSpritesByLayers: ->
     for sprite, index in _.sortBy(@object_layer.children, (c)-> c.position.y)
       @object_layer.setChildIndex(sprite, index) unless @object_layer.getChildIndex(sprite) == index
+
+  createPineSprite: ->
+    container = new PIXI.DisplayObjectContainer()
+    container.position.x = @.objectToSceneX(@controller.pine.x)
+    container.position.y = @.objectToSceneY(@controller.pine.y)
+
+    container.tree_sprite = PIXI.Sprite.fromFrame("pine.png")
+    container.tree_sprite.anchor.x = 0.5
+    container.tree_sprite.anchor.y = 1
+
+    container.addChild(container.tree_sprite)
+
+    container
 
   createSnowmanSprite: ->
     container = new PIXI.DisplayObjectContainer()
@@ -171,6 +186,14 @@ window.GameAnimator = class extends Animator
     sprite = PIXI.Sprite.fromFrame("tree.png")
     sprite.position.x = @.objectToSceneX(_.random(0, canvasSize.width))
     sprite.position.y = @.objectToSceneY(_.random(0, canvasSize.height))
+
+    dX = sprite.position.x - canvasSize.width / 2
+    dY = sprite.position.y - canvasSize.height / 2
+
+    if Math.abs(dX) < 75 and Math.abs(dY) < 75
+      sprite.position.x += _.random(50, 100) * Math.sign(dX)
+      sprite.position.y += _.random(50, 100) * Math.sign(dY)
+
     sprite.anchor.x = 0.5
     sprite.anchor.y = 1
     sprite.scale.y = _.random(0, 10) * 0.03 + 0.7

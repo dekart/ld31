@@ -10,7 +10,9 @@ window.GameController = class extends BaseController
 
     @animator = new GameAnimator(@)
 
-    @snowman = new Snowman(canvasSize.width / 2, canvasSize.height / 2)
+    @pine = new Pine()
+
+    @snowman = new Snowman(canvasSize.width / 2 - 50, canvasSize.height / 2)
 
     @lumberjacks = []
 
