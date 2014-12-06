@@ -1,11 +1,10 @@
 window.Snowman = class
-  speed:
-    x: 0
-    y: 0
-    perSecond: 100
+  pixelsPerSecond: 100
 
   constructor: (@x, @y)->
     @last_position_update_at = Date.now()
+
+    @speed = {x: 0, y: 0}
 
   updateState: ->
     current_time = Date.now()
@@ -15,7 +14,7 @@ window.Snowman = class
   updatePosition: (current_time)->
     delta = (current_time - @last_position_update_at) / 1000
 
-    @x += @.speed.x * @.speed.perSecond * delta
-    @y += @.speed.y * @.speed.perSecond * delta
+    @x += @speed.x * @.pixelsPerSecond * delta
+    @y += @speed.y * @.pixelsPerSecond * delta
 
     @last_position_update_at = current_time

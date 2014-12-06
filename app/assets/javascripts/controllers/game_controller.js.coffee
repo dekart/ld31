@@ -12,6 +12,20 @@ window.GameController = class extends BaseController
 
     @snowman = new Snowman(canvasSize.width / 2, canvasSize.height / 2)
 
+    @lumberjacks = []
+
+    for i in [0 .. 10]
+      jack = new Lumberjack(Lumberjack.randomSpawnPosition()...)
+      jack.aimTo(canvasSize.width / 2, canvasSize.height / 2)
+
+      @lumberjacks.push(jack)
+
+    jack = new Lumberjack(10, 10)
+    jack.aimTo(canvasSize.width / 2, canvasSize.height / 2)
+
+    @lumberjacks.push(jack)
+
+
   show: ->
     @.setupEventListeners()
 
@@ -35,6 +49,9 @@ window.GameController = class extends BaseController
   updateState: ->
     # Logic goes here
     @snowman.updateState()
+
+    for jack in @lumberjacks
+      jack.updateState()
 
   updateMousePosition: (event)->
     touchpoint = if event.originalEvent.touches? then event.originalEvent.touches[0] else event

@@ -36,6 +36,10 @@ window.GameAnimator = class extends Animator
 
     @object_layer.addChild(@snowman_sprite)
 
+    @lumberjack_sprites = []
+
+    for jack in @controller.lumberjacks
+      @.addLumberjack(jack)
 
     @sprites_added = true
 
@@ -76,6 +80,11 @@ window.GameAnimator = class extends Animator
         else
           speedX == 0 and (speedY == 1 or speedY == 0)
 
+    for sprite in @lumberjack_sprites
+      sprite.position.x = @.objectToSceneX(sprite.source.x)
+      sprite.position.y = @.objectToSceneX(sprite.source.y)
+
+
   sortSpritesByLayers: ->
     for sprite, index in _.sortBy(@object_layer.children, (c)-> c.position.y)
       @object_layer.setChildIndex(sprite, index) unless @object_layer.getChildIndex(sprite) == index
@@ -108,14 +117,46 @@ window.GameAnimator = class extends Animator
 
     container
 
-  createLumberjackSprite: (object)->
-    sprite = PIXI.Sprite.fromFrame("lumberjack_up_side.png")
-    sprite.position.x = @.objectToSceneX(100)
-    sprite.position.y = @.objectToSceneY(100)
-    sprite.anchor.x = 0.5
-    sprite.anchor.y = 0.5
-    sprite.source = object
-    sprite
+  createLumberjackSprite: (jack)->
+    container = new PIXI.DisplayObjectContainer()
+    container.position.x = @.objectToSceneX(jack.x)
+    container.position.y = @.objectToSceneY(jack.y)
+    container.source = jack
+
+    # down
+    if jack.speed.y == 1 and -0.3 < jack.speed.x < 0.3
+      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_down.png")
+    # up
+    else if jack.speed.y == -1 and -0.3 < jack.speed.x < 0.3
+      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_up.png")
+    # left
+    else if jack.speed.x == -1 and -0.3 < jack.speed.y < 0.3
+      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_side.png")
+    # right
+    else if jack.speed.x == 1 and -0.3 < jack.speed.y < 0.3
+      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_side.png")
+      container.walk_sprite.scale.x = -1
+    # top left
+    else if jack.speed.x == -1 and jack.speed.y < -0.3 or jack.speed.y == -1 and jack.speed.x < -0.3
+      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_up_side.png")
+    # bottom left
+    else if jack.speed.x == -1 and jack.speed.y > 0.3 or jack.speed.y == 1 and jack.speed.x < -0.3
+      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_down_side.png")
+    # top right
+    else if jack.speed.x == 1 and jack.speed.y < -0.3 or jack.speed.y == -1 and jack.speed.x > 0.3
+      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_up_side.png")
+      container.walk_sprite.scale.x = -1
+    # bottom right
+    else if jack.speed.x == 1 and jack.speed.y > 0.3 or jack.speed.y == 1 and jack.speed.x > 0.3
+      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_down_side.png")
+      container.walk_sprite.scale.x = -1
+
+    container.walk_sprite.anchor.x = 0.5
+    container.walk_sprite.anchor.y = 1
+
+    container.addChild(container.walk_sprite)
+
+    container
 
   createRabbitSprite: (object)->
     sprite = PIXI.Sprite.fromFrame("rabbit_sitting.png")
@@ -145,19 +186,10 @@ window.GameAnimator = class extends Animator
   mousePositionToCanvas: (position)->
     position
 
-  animateObjectMovement: ()->
-    @movement_animation_started = Date.now()
 
-    # Animation logic start
+  addLumberjack: (jack)->
+    sprite = @.createLumberjackSprite(jack)
 
-  isMovementAnimationFinished: ->
-    Date.now() - @movement_animation_started > @.movementAnimationSpeed
+    @lumberjack_sprites.push(sprite)
 
-
-  movementAnimationProgress: ->
-    (Date.now() - @movement_animation_started) / @.movementAnimationSpeed
-
-
-  isBlockingAnimationInProgress: ->
-    @movement_animation_started
-
+    @object_layer.addChild(sprite)
