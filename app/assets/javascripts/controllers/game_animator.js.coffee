@@ -44,6 +44,7 @@ window.GameAnimator = class extends Animator
       @controller.updateState()
 
       @.updateSpriteStates()
+      @.sortSpritesByLayers()
 
     super
 
@@ -75,6 +76,9 @@ window.GameAnimator = class extends Animator
         else
           speedX == 0 and (speedY == 1 or speedY == 0)
 
+  sortSpritesByLayers: ->
+    for sprite, index in _.sortBy(@object_layer.children, (c)-> c.position.y)
+      @object_layer.setChildIndex(sprite, index) unless @object_layer.getChildIndex(sprite) == index
 
   createSnowmanSprite: ->
     container = new PIXI.DisplayObjectContainer()
