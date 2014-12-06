@@ -3,7 +3,6 @@
 window.GameAnimator = class extends Animator
   movementAnimationSpeed: 300
 
-
   # loops: # [StartFrame, EndFrame, Speed]
     # object: {frames: [0,  3], speed: 0.2}
 
@@ -31,12 +30,11 @@ window.GameAnimator = class extends Animator
     @background_layer.addChild(@background_sprite)
 
     @snowman_sprite = @.createSnowmanSprite()
-    @lumberjack_sprite = @.createLumberjackSprite()
-    @rabbit_sprite = @.createRabbitSprite()
+
+    for i in [0..70]
+      @object_layer.addChild(@.createTreeSprite())
 
     @object_layer.addChild(@snowman_sprite)
-    @object_layer.addChild(@lumberjack_sprite)
-    @object_layer.addChild(@rabbit_sprite)
 
 
     @sprites_added = true
@@ -122,6 +120,16 @@ window.GameAnimator = class extends Animator
     sprite.anchor.x = 0.5
     sprite.anchor.y = 0.5
     sprite.source = object
+    sprite
+
+  createTreeSprite: ->
+    sprite = PIXI.Sprite.fromFrame("tree.png")
+    sprite.position.x = @.objectToSceneX(_.random(0, canvasSize.width))
+    sprite.position.y = @.objectToSceneY(_.random(0, canvasSize.height))
+    sprite.anchor.x = 0.5
+    sprite.anchor.y = 1
+    sprite.scale.y = _.random(0, 10) * 0.03 + 0.7
+    sprite.scale.x = sprite.scale.y * _.shuffle([-1, 1])[0]
     sprite
 
   objectToSceneX: (coordinate)->
