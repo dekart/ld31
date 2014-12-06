@@ -1,58 +1,60 @@
-@function sprite_image_url(){
-  @return image-url('art.png');
-}
+$art_image_url: image-url('art.png');
 
+$art_piece_names: carrot, lumberjack_down, lumberjack_down_side, lumberjack_side, lumberjack_up, lumberjack_up_side, pine, rabbit_jumping, rabbit_sitting, snowball, snowman_down, snowman_down_side, snowman_side, snowman_up, snowman_up_side, tree;
+$art_piece_widths: 17px, 32px, 32px, 32px, 32px, 32px, 90px, 40px, 40px, 14px, 48px, 48px, 48px, 48px, 48px, 66px;
+$art_piece_heights: 30px, 48px, 48px, 48px, 48px, 48px, 100px, 40px, 40px, 20px, 42px, 42px, 42px, 42px, 42px, 74px;
+$art_piece_positions_x: 406px, 162px, 162px, 196px, 196px, 230px, 2px, 364px, 380px, 94px, 230px, 264px, 280px, 314px, 330px, 94px;
+$art_piece_positions_y: 2px, 2px, 52px, 2px, 52px, 2px, 2px, 2px, 44px, 78px, 52px, 2px, 46px, 2px, 46px, 2px;
 
-@function sprite_position_object_0000(){
-  @return -2px -2px;
-}
-@mixin sprite_object_0000($width: 50px, $height: 50px) {
-  width: $width;
-  height: $height;
-  background: {
-    repeat: no-repeat;
-    image: sprite_image_url();
-    position: sprite_position_object_0000();
+@function art-sprite-width($name) {
+  $index: index($art_piece_names, $name);
+
+  @if $index != null {
+    @return nth($art_piece_widths, $index)
+  } @else {
+    @warn "Wrong sprite name #{ $name }";
   }
 }
 
-@function sprite_position_object_0001(){
-  @return -54px -2px;
-}
-@mixin sprite_object_0001($width: 50px, $height: 50px) {
-  width: $width;
-  height: $height;
-  background: {
-    repeat: no-repeat;
-    image: sprite_image_url();
-    position: sprite_position_object_0001();
+@function art-sprite-height($name) {
+  $index: index($art_piece_names, $name);
+
+  @if $index != null {
+    @return nth($art_piece_heights, $index)
+  } @else {
+    @warn "Wrong sprite name #{ $name }";
   }
 }
 
-@function sprite_position_object_0002(){
-  @return -106px -2px;
-}
-@mixin sprite_object_0002($width: 50px, $height: 50px) {
-  width: $width;
-  height: $height;
-  background: {
-    repeat: no-repeat;
-    image: sprite_image_url();
-    position: sprite_position_object_0002();
+@function art-sprite-position($name, $x_offset: 0, $y_offset: 0) {
+  $index: index($art_piece_names, $name);
+
+  @if $index != null {
+    $x: nth($art_piece_positions_x, $index);
+    $y: nth($art_piece_positions_y, $index);
+
+    @return ($x_offset - $x) ($y_offset - $y);
+  } @else {
+    @warn "Wrong sprite name #{ $name }";
   }
 }
 
-@function sprite_position_object_0003(){
-  @return -158px -2px;
+@mixin art-sprite-dimensions($name) {
+  width: art-sprite-width($name);
+  height: art-sprite-height($name);
 }
-@mixin sprite_object_0003($width: 50px, $height: 50px) {
-  width: $width;
-  height: $height;
+
+@mixin art-sprite-background($name) {
   background: {
     repeat: no-repeat;
-    image: sprite_image_url();
-    position: sprite_position_object_0003();
+    image: $art_image_url;
+    position: art-sprite-position($name);
   }
 }
 
+@mixin art-sprite($name) {
+  @include art-sprite-dimensions($name);
+  @include art-sprite-background($name);
+}
 
+// $TexturePacker:SmartUpdate:e6006689ea05adc0e7fddf538ac16364:2a0ad586657393a7e3f67f2814b59090:b4690bc4e9404001c1481325e4112eb5$

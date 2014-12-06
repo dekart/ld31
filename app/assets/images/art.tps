@@ -4,9 +4,9 @@
         <key>fileFormatVersion</key>
         <int>3</int>
         <key>texturePackerVersion</key>
-        <string>3.5.2</string>
+        <string>3.5.3</string>
         <key>fileName</key>
-        <string>/Users/DEkart/projects/crows/app/assets/images/art.tps</string>
+        <string>/Users/DEkart/projects/ld31/app/assets/images/art.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -36,7 +36,7 @@
         <key>dpi</key>
         <uint>72</uint>
         <key>dataFormat</key>
-        <string>sass-json</string>
+        <string>scss-json-2</string>
         <key>textureFileName</key>
         <filename>art.png</filename>
         <key>flipPVR</key>
@@ -74,7 +74,7 @@
         <key>jpgQuality</key>
         <uint>80</uint>
         <key>pngOptimizationLevel</key>
-        <uint>0</uint>
+        <uint>1</uint>
         <key>webpQualityLevel</key>
         <uint>101</uint>
         <key>textureSubPath</key>
@@ -142,15 +142,20 @@
         </struct>
         <key>dataFileNames</key>
         <map type="GFileNameMap">
-            <key>java</key>
+            <key>JSON</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../../../../ld28/projects/ld27/tmp/art.java</filename>
+                <filename>../javascripts/art.js</filename>
             </struct>
-            <key>sassjson</key>
+            <key>SCSS</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../../../tmp/sprites/art.sassjson</filename>
+                <filename>../stylesheets/art.scss</filename>
+            </struct>
+            <key>data</key>
+            <struct type="DataFile">
+                <key>name</key>
+                <filename></filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -165,13 +170,13 @@
             <string></string>
         </struct>
         <key>autoAliasEnabled</key>
-        <false/>
+        <true/>
         <key>trimSpriteNames</key>
         <false/>
         <key>prependSmartFolderName</key>
         <false/>
         <key>cleanTransparentPixels</key>
-        <false/>
+        <true/>
         <key>globalSpriteSettings</key>
         <struct type="SpriteSettings">
             <key>scale</key>
@@ -193,7 +198,7 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>art</filename>
+            <filename>../../../../../Dropbox (Личный)/Docs/Ludum Dare/ld31/art</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

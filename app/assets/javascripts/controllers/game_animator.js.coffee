@@ -4,8 +4,8 @@ window.GameAnimator = class extends Animator
   movementAnimationSpeed: 300
 
 
-  loops: # [StartFrame, EndFrame, Speed]
-    object: {frames: [0,  3], speed: 0.2}
+  # loops: # [StartFrame, EndFrame, Speed]
+    # object: {frames: [0,  3], speed: 0.2}
 
   constructor: (controller)->
     super(controller)
@@ -31,7 +31,12 @@ window.GameAnimator = class extends Animator
     @background_layer.addChild(@background_sprite)
 
     @object_sprite = @.createObjectSprite(@controller.object)
+    @lumberjack_sprite = @.createLumberjackSprite()
+    @rabbit_sprite = @.createRabbitSprite()
+
     @object_layer.addChild(@object_sprite)
+    @object_layer.addChild(@lumberjack_sprite)
+    @object_layer.addChild(@rabbit_sprite)
 
 
     @sprites_added = true
@@ -71,11 +76,27 @@ window.GameAnimator = class extends Animator
 
 
   createObjectSprite: (object)->
-    sprite = new PIXI.MovieClip(@.loops["object"].textures)
-    sprite.animationSpeed = @.loops["object"].speed
-    sprite.play()
+    sprite = PIXI.Sprite.fromFrame("snowman_down_side.png")
     sprite.position.x = @.objectToSceneX(object.x)
     sprite.position.y = @.objectToSceneY(object.y)
+    sprite.anchor.x = 0.5
+    sprite.anchor.y = 0.5
+    sprite.source = object
+    sprite
+
+  createLumberjackSprite: (object)->
+    sprite = PIXI.Sprite.fromFrame("lumberjack_up_side.png")
+    sprite.position.x = @.objectToSceneX(100)
+    sprite.position.y = @.objectToSceneY(100)
+    sprite.anchor.x = 0.5
+    sprite.anchor.y = 0.5
+    sprite.source = object
+    sprite
+
+  createRabbitSprite: (object)->
+    sprite = PIXI.Sprite.fromFrame("rabbit_sitting.png")
+    sprite.position.x = @.objectToSceneX(200)
+    sprite.position.y = @.objectToSceneY(200)
     sprite.anchor.x = 0.5
     sprite.anchor.y = 0.5
     sprite.source = object
