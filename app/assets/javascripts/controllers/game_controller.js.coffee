@@ -18,15 +18,11 @@ window.GameController = class extends BaseController
 
     for i in [0 .. 10]
       jack = new Lumberjack(Lumberjack.randomSpawnPosition()...)
-      jack.aimTo(canvasSize.width / 2, canvasSize.height / 2)
+      jack.aimTo(@pine)
 
       @lumberjacks.push(jack)
 
-    jack = new Lumberjack(10, 10)
-    jack.aimTo(canvasSize.width / 2, canvasSize.height / 2)
-
     @lumberjacks.push(jack)
-
 
   show: ->
     @.setupEventListeners()
@@ -54,6 +50,9 @@ window.GameController = class extends BaseController
 
     for jack in @lumberjacks
       jack.updateState()
+
+    if @pine.health <= 0
+      @.finish()
 
   updateMousePosition: (event)->
     touchpoint = if event.originalEvent.touches? then event.originalEvent.touches[0] else event
@@ -114,5 +113,5 @@ window.GameController = class extends BaseController
   finish: ->
     @animator.deactivate()
 
-    alert('Done!')
+    alert('Game over!')
 

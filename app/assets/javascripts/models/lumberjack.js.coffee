@@ -11,28 +11,63 @@ window.Lumberjack = class
         [canvasSize.width + 50, _.random(0, canvasSize.height)]
 
   pixelsPerSecond: 50
+  hitEvery: 1.5
 
   constructor: (@x, @y)->
+    @speed = {x: 0, y: 0}
+    @target = {x: 0, y: 0}
+
+    @.startMoving()
+
+  startMoving: ->
+    @state = 'moving'
     @last_position_update_at = Date.now()
 
-    @speed = {x: 0, y: 0}
+  startHitting: ->
+    @state = 'hitting'
+    @last_hit_at = Date.now()
 
   updateState: ->
     current_time = Date.now()
 
-    @.updatePosition(current_time)
+    @.updatePosition(current_time) if @state == 'moving'
+    @.updateHitting(current_time) if @state == 'hitting'
 
   updatePosition: (current_time)->
     delta = (current_time - @last_position_update_at) / 1000
 
-    @x += @speed.x * @.pixelsPerSecond * delta
-    @y += @speed.y * @.pixelsPerSecond * delta
+    dX = Math.abs(@target.x - @x)
+    dY = Math.abs(@target.y - @y)
+
+    if dX + dY < 5
+      @x = @target.x
+      @y = @target.y
+
+      @.startHitting()
+    else
+      @x += @speed.x * @.pixelsPerSecond * delta
+      @y += @speed.y * @.pixelsPerSecond * delta
 
     @last_position_update_at = current_time
 
-  aimTo: (targetX, targetY)->
-    dX = targetX - @x
-    dY = targetY - @y
+  updateHitting: (current_time)->
+    delta = (current_time - @last_hit_at) / 1000
+
+    if delta >= @.hitEvery
+      @pine.getHit()
+
+      @last_hit_at = current_time
+
+  aimTo: (@pine)->
+    if @x < @pine.x
+      @target.x = @pine.x - 40
+    else
+      @target.x = @pine.x + 40
+
+    @target.y = @pine.y - _.random(-5, 50)
+
+    dX = @target.x - @x
+    dY = @target.y - @y
 
     if Math.abs(dX) > Math.abs(dY)
       @speed.x = Math.sign(dX)
