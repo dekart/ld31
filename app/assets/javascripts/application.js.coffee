@@ -5,6 +5,7 @@
 #= require visibility
 #= require pixi
 #= require tweenjs
+#= require fpsmeter
 
 #= require spine
 

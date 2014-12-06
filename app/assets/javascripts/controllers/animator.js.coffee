@@ -5,7 +5,7 @@ window.canvasSize = {
 
 window.Animator = class
   @getRenderer: ()->
-    @renderer ?= PIXI.autoDetectRenderer(canvasSize.width, canvasSize.height, null, true)
+    @renderer ?= PIXI.autoDetectRenderer(canvasSize.width, canvasSize.height)
 
   constructor: (@controller)->
     @active = false
@@ -17,6 +17,8 @@ window.Animator = class
 
     @last_tick = Date.now()
     @animation_requested = false
+
+    @fpsmeter = new FPSMeter()
 
   zeroPad: (num, size)->
     s = num + ""
@@ -33,10 +35,11 @@ window.Animator = class
 
     return if @paused_at
 
-    if Date.now() - @last_tick >= 15 # 60 frames per second
-      @last_tick = Date.now()
+    @last_tick = Date.now()
 
-      @renderer.render(@stage)
+    @renderer.render(@stage)
+
+    @fpsmeter.tick()
 
   activate: ->
     return if @active
