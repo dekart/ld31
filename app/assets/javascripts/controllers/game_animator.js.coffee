@@ -145,33 +145,33 @@ window.GameAnimator = class extends Animator
     container.position.y = @.objectToSceneY(jack.y)
     container.source = jack
 
-    # down
-    if jack.speed.y == 1 and -0.3 < jack.speed.x < 0.3
-      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_down.png")
-    # up
-    else if jack.speed.y == -1 and -0.3 < jack.speed.x < 0.3
-      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_up.png")
-    # left
-    else if jack.speed.x == -1 and -0.3 < jack.speed.y < 0.3
-      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_side.png")
-    # right
-    else if jack.speed.x == 1 and -0.3 < jack.speed.y < 0.3
-      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_side.png")
-      container.walk_sprite.scale.x = -1
-    # top left
-    else if jack.speed.x == -1 and jack.speed.y < -0.3 or jack.speed.y == -1 and jack.speed.x < -0.3
-      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_up_side.png")
-    # bottom left
-    else if jack.speed.x == -1 and jack.speed.y > 0.3 or jack.speed.y == 1 and jack.speed.x < -0.3
-      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_down_side.png")
     # top right
-    else if jack.speed.x == 1 and jack.speed.y < -0.3 or jack.speed.y == -1 and jack.speed.x > 0.3
+    if 22.5 < jack.angle <= 67.5
       container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_up_side.png")
+      container.walk_sprite.scale.x = -1
+    # right
+    else if 67.5 < jack.angle <= 112.5
+      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_side.png")
       container.walk_sprite.scale.x = -1
     # bottom right
-    else if jack.speed.x == 1 and jack.speed.y > 0.3 or jack.speed.y == 1 and jack.speed.x > 0.3
+    else if 112.5 < jack.angle <= 157.5
       container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_down_side.png")
       container.walk_sprite.scale.x = -1
+    # bottom
+    else if 157.5 < jack.angle <= 202.5
+      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_down.png")
+    # bottom left
+    else if 202.5 < jack.angle <= 247.5
+      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_down_side.png")
+    # left
+    else if 247.5 < jack.angle <= 292.5
+      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_side.png")
+    # top left
+    else if 292.5 < jack.angle <= 337.5
+      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_up_side.png")
+    # top
+    else
+      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_up.png")
 
     container.walk_sprite.anchor.x = 0.5
     container.walk_sprite.anchor.y = 1

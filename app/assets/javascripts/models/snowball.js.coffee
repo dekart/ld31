@@ -18,30 +18,23 @@ window.Snowball = class
   updatePosition: (current_time)->
     delta = (current_time - @last_position_update_at) / 1000
 
-    @x += @speed.x * @.pixelsPerSecond * delta
-    @y += @speed.y * @.pixelsPerSecond * delta
+    @x += @speed.x * delta
+    @y += @speed.y * delta
 
     @last_position_update_at = current_time
 
   aimTo: (position)->
-    target = {}
+    dx = position.x - @x
+    dy = position.y - @y
 
-    if @x < position.x
-      target.x = position.x - 40
-    else
-      target.x = position.x + 40
+    @speed.x = Math.sqrt(
+      Math.pow(@.pixelsPerSecond, 2) / (1 + Math.pow(dy / dx , 2) )
+    ) * Math.sign(dx)
 
-    target.y = position.y - _.random(-5, 50)
+    @speed.y = Math.sqrt(
+      Math.pow(@.pixelsPerSecond, 2) / (1 + Math.pow(dx / dy , 2) )
+    ) * Math.sign(dy)
 
-    dx = target.x - @x
-    dy = target.y - @y
-
-    if Math.abs(dx) > Math.abs(dy)
-      @speed.x = Math.sign(dx)
-      @speed.y = Math.sign(dy) * Math.abs(dy) / Math.abs(dx)
-    else
-      @speed.y = Math.sign(dy)
-      @speed.x = Math.sign(dx) * Math.abs(dx) / Math.abs(dy)
 
   inHitRange: (target)->
     [tx, ty, tw, th] = target.getHitZone()

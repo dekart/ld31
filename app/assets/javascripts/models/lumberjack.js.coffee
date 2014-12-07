@@ -45,8 +45,8 @@ window.Lumberjack = class
 
       @.startHitting(current_time)
     else
-      @x += @speed.x * @.pixelsPerSecond * delta
-      @y += @speed.y * @.pixelsPerSecond * delta
+      @x += @speed.x * delta
+      @y += @speed.y * delta
 
     @last_position_update_at = current_time
 
@@ -69,19 +69,23 @@ window.Lumberjack = class
     dx = @target.x - @x
     dy = @target.y - @y
 
-    if Math.abs(dx) > Math.abs(dy)
-      @speed.x = Math.sign(dx)
-      @speed.y = Math.sign(dy) * Math.abs(dy) / Math.abs(dx)
-    else
-      @speed.y = Math.sign(dy)
-      @speed.x = Math.sign(dx) * Math.abs(dx) / Math.abs(dy)
+    @speed.x = Math.sqrt(
+      Math.pow(@.pixelsPerSecond, 2) / (1 + Math.pow(dy / dx , 2) )
+    ) * Math.sign(dx)
+
+    @speed.y = Math.sqrt(
+      Math.pow(@.pixelsPerSecond, 2) / (1 + Math.pow(dx / dy , 2) )
+    ) * Math.sign(dy)
+
+    @angle = Math.atan2(dx, -dy) * 180 / Math.PI
+    @angle += 360 if @angle < 0
 
   getHitZone: ->
     [
       @x,
       @y - 24,
-      14,
-      20
+      15,
+      25
     ]
 
   takeHit: ->

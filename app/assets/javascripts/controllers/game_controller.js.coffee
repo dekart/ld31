@@ -70,10 +70,8 @@ window.GameController = class extends BaseController
     touchpoint = if event.originalEvent.touches? then event.originalEvent.touches[0] else event
 
     if touchpoint
-      @canvas_offset ?= $(@animator.renderer.view).offset()
-
-      @mouse_position.x = touchpoint.clientX - @canvas_offset.left
-      @mouse_position.y = touchpoint.clientY - @canvas_offset.top
+      @mouse_position.x = touchpoint.offsetX
+      @mouse_position.y = touchpoint.offsetY
 
   onTouchStart: (e)=>
     e.preventDefault()
@@ -158,7 +156,7 @@ window.GameController = class extends BaseController
 
   emitSnowballs: (current_time)->
     if @shooting and current_time > @snowball_emitted_at + @snowballs_every * 1000
-      snowball = new Snowball(@snowman.x, @snowman.y)
+      snowball = new Snowball(@snowman.x, @snowman.y - 25)
       snowball.aimTo(@mouse_position)
 
       @snowballs.push(snowball)
