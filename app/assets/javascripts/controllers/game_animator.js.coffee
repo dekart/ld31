@@ -17,6 +17,11 @@ window.GameAnimator = class extends Animator
     snowman_side: {frames: [0,  3], speed: 0.2}
     snowman_up_side: {frames: [0,  3], speed: 0.2}
     snowman_down_side: {frames: [0,  3], speed: 0.2}
+    lumberjack_up: {frames: [0,  3], speed: 0.2}
+    lumberjack_down: {frames: [0,  3], speed: 0.2}
+    lumberjack_side: {frames: [0,  3], speed: 0.2}
+    lumberjack_down_side: {frames: [0,  3], speed: 0.2}
+    lumberjack_up_side: {frames: [0,  3], speed: 0.2}
 
   constructor: (controller)->
     super(controller)
@@ -241,31 +246,47 @@ window.GameAnimator = class extends Animator
 
     # top right
     if 22.5 < jack.angle <= 67.5
-      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_up_side.png")
+      container.walk_sprite = new PIXI.MovieClip(@.loops["lumberjack_up_side"].textures)
+      container.walk_sprite.animationSpeed = @.loops["lumberjack_up_side"].speed
+      container.walk_sprite.play()
       container.walk_sprite.scale.x = -1
     # right
     else if 67.5 < jack.angle <= 112.5
-      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_side.png")
+      container.walk_sprite = new PIXI.MovieClip(@.loops["lumberjack_side"].textures)
+      container.walk_sprite.animationSpeed = @.loops["lumberjack_side"].speed
+      container.walk_sprite.play()
       container.walk_sprite.scale.x = -1
     # bottom right
     else if 112.5 < jack.angle <= 157.5
-      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_down_side.png")
+      container.walk_sprite = new PIXI.MovieClip(@.loops["lumberjack_down_side"].textures)
+      container.walk_sprite.animationSpeed = @.loops["lumberjack_down_side"].speed
+      container.walk_sprite.play()
       container.walk_sprite.scale.x = -1
     # bottom
     else if 157.5 < jack.angle <= 202.5
-      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_down.png")
+      container.walk_sprite = new PIXI.MovieClip(@.loops["lumberjack_down"].textures)
+      container.walk_sprite.animationSpeed = @.loops["lumberjack_down"].speed
+      container.walk_sprite.play()
     # bottom left
     else if 202.5 < jack.angle <= 247.5
-      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_down_side.png")
+      container.walk_sprite = new PIXI.MovieClip(@.loops["lumberjack_down_side"].textures)
+      container.walk_sprite.animationSpeed = @.loops["lumberjack_down_side"].speed
+      container.walk_sprite.play()
     # left
     else if 247.5 < jack.angle <= 292.5
-      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_side.png")
+      container.walk_sprite = new PIXI.MovieClip(@.loops["lumberjack_side"].textures)
+      container.walk_sprite.animationSpeed = @.loops["lumberjack_side"].speed
+      container.walk_sprite.play()
     # top left
     else if 292.5 < jack.angle <= 337.5
-      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_up_side.png")
+      container.walk_sprite = new PIXI.MovieClip(@.loops["lumberjack_up_side"].textures)
+      container.walk_sprite.animationSpeed = @.loops["lumberjack_up_side"].speed
+      container.walk_sprite.play()
     # top
     else
-      container.walk_sprite = PIXI.Sprite.fromFrame("lumberjack_up.png")
+      container.walk_sprite = new PIXI.MovieClip(@.loops["lumberjack_up"].textures)
+      container.walk_sprite.animationSpeed = @.loops["lumberjack_up"].speed
+      container.walk_sprite.play()
 
     container.walk_sprite.anchor.x = 0.5
     container.walk_sprite.anchor.y = 1
