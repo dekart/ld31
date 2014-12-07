@@ -32,10 +32,34 @@ window.GameAnimator = class extends Animator
     @particle_layer = new PIXI.DisplayObjectContainer()
     @snowflake_layer = new SnowflakeEmitter()
 
-    @stage.addChild(@background_layer)
-    @stage.addChild(@object_layer)
-    @stage.addChild(@particle_layer)
-    @stage.addChild(@snowflake_layer)
+    @game_over_screen = new PIXI.DisplayObjectContainer()
+    @game_over_screen.visible = false
+    @game_over_background = PIXI.Sprite.fromImage('$assetPath(game_over.png)')
+    @game_over_background.position.set(60, 50)
+    @game_over_screen.addChild(@game_over_background)
+
+    @victory_screen = new PIXI.DisplayObjectContainer()
+    @victory_screen.visible = false
+    @victory_background = PIXI.Sprite.fromImage('$assetPath(victory.png)')
+    @victory_background.position.set(60, 50)
+    @victory_screen.addChild(@victory_background)
+
+    @lumberjacks_hit_text = new PIXI.Text('0', font: 'bold 50px Arial', fill: '#003cff', dropShadow: true)
+    @lumberjacks_hit_text.position.set(720, 285)
+    @snowballs_thrown_text = new PIXI.Text('0', font: 'bold 50px Arial', fill: '#003cff', dropShadow: true)
+    @snowballs_thrown_text.position.set(720, 400)
+
+
+    @game_layer = new PIXI.DisplayObjectContainer()
+
+    @game_layer.addChild(@background_layer)
+    @game_layer.addChild(@object_layer)
+    @game_layer.addChild(@particle_layer)
+    @game_layer.addChild(@snowflake_layer)
+
+    @stage.addChild(@game_layer)
+    @stage.addChild(@game_over_screen)
+    @stage.addChild(@victory_screen)
 
     @lumberjack_sprites = []
     @snowball_sprites = []
@@ -470,3 +494,24 @@ window.GameAnimator = class extends Animator
 
     animation = new PineHitAnimation(@)
     animation.start(pieces)
+
+  displayGameOver: ->
+    @game_layer.alpha = 0.2
+
+    @game_over_screen.visible = true
+    @game_over_screen.addChild(@lumberjacks_hit_text)
+    @game_over_screen.addChild(@snowballs_thrown_text)
+
+    @lumberjacks_hit_text.setText(@controller.lumberjacks_hit)
+    @snowballs_thrown_text.setText(@controller.snowballs_thrown)
+
+  displayVictory: ->
+    @game_layer.alpha = 0.2
+
+    @victory_screen.visible = true
+    @victory_screen.addChild(@lumberjacks_hit_text)
+    @victory_screen.addChild(@snowballs_thrown_text)
+
+    @lumberjacks_hit_text.setText(@controller.lumberjacks_hit)
+    @snowballs_thrown_text.setText(@controller.snowballs_thrown)
+

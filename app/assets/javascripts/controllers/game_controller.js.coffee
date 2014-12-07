@@ -31,6 +31,9 @@ window.GameController = class extends BaseController
 
     @sounds = new Sounds2()
 
+    @lumberjacks_hit = 0
+    @snowballs_thrown = 0
+
   show: ->
     @.setupEventListeners()
 
@@ -52,6 +55,8 @@ window.GameController = class extends BaseController
     @animator.activate()
 
   updateState: ->
+    return if @finished
+
     # Logic goes here
     window.current_time = Date.now()
 
@@ -125,7 +130,10 @@ window.GameController = class extends BaseController
 
     # Logic goes here
 
-    @shooting = true
+    if @finished and 360 < @mouse_position.x < 650 and 560 < @mouse_position.y < 680
+      document.location = document.location
+    else
+      @shooting = true
 
   onTouchMove: (e)=>
     e.preventDefault()
@@ -170,15 +178,15 @@ window.GameController = class extends BaseController
     e.preventDefault() unless process_default?
 
   finish: (result)->
-    @animator.deactivate()
+    @finished = true
 
     switch result
       when 'chopped'
-        console.log('Game over! Tree has been chopped!')
+        @animator.displayGameOver('Tree has been chopped!')
       when 'destroyed'
-        console.log('Game over! Snowman has been destroyed!')
+        @animator.displayGameOver('Snowman has been destroyed!')
       when 'beautified'
-        alert('Merry Christmas!')
+        @animator.displayVictory('Merry Christmas!')
 
   emitLumberjacks: ->
     if current_time > @lumberjack_emitted_at + @lumberjacks_every * 1000
@@ -200,6 +208,8 @@ window.GameController = class extends BaseController
     for lumberjack in killed
       @.removeLumberjack(lumberjack)
 
+      @lumberjacks_hit += 1
+
   removeLumberjack: (lumberjack)->
     @animator.removeLumberjack(lumberjack)
 
@@ -217,6 +227,8 @@ window.GameController = class extends BaseController
       @snowball_emitted_at = current_time
 
       @sounds.playSound('throw')
+
+      @snowballs_thrown += 1
 
   checkSnowballCollisions: ->
     hits = []
