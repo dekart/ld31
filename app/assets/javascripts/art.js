@@ -938,6 +938,20 @@ var artSprite = {
     "sourceSize": {"w":52,"h":46}
   }, 
 
+  "splint.png":
+  {
+    "frame": {"x":958,"y":92,"w":8,"h":10},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":8,
+      "h":10
+    },
+    "sourceSize": {"w":8,"h":10}
+  }, 
+
   "tree.png":
   {
     "frame": {"x":94,"y":2,"w":66,"h":74},
@@ -954,4 +968,4 @@ var artSprite = {
 
 };
 
-/* $TexturePacker:SmartUpdate:5a365bbe555d5c1c377a60ba355ce867:045dbb91ebf45ec0b3dac0c25af6f227:b4690bc4e9404001c1481325e4112eb5$ */
+/* $TexturePacker:SmartUpdate:79f5cbe855d35ae217667d9d69be14f6:d14da1aed266c7cbb6f99df4e520d687:b4690bc4e9404001c1481325e4112eb5$ */

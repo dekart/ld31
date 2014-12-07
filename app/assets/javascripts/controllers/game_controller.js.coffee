@@ -108,6 +108,7 @@ window.GameController = class extends BaseController
       @.finish('beautified')
 
     if @pine.got_hit
+      @animator.hitPine()
       @sounds.playSound('chop')
 
   updateMousePosition: (event)->

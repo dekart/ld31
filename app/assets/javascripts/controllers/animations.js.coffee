@@ -101,7 +101,37 @@ window.SnowballExplosionAnimation = class extends BaseAnimation
 
   onComplete: =>
     for sprite in @sprites
-      @animator.object_layer.removeChild(sprite)
+      sprite.parent.removeChild(sprite)
+
+    @sprites = []
+
+    super
+
+window.PineHitAnimation = class extends BaseAnimation
+  speed: 400
+
+  start: (@sprites)->
+    @progress = 0
+
+    createjs.Tween.get(@).to(progress: 1, @.speed).on('change', @.onChange)
+
+    @.onChange()
+
+  onChange: =>
+    if @progress < 1
+      for sprite in @sprites
+        sprite.position.set(
+          sprite.start_at.x + 10 * Math.sin(sprite.angle) * @progress * sprite.speed,
+          sprite.start_at.y + 10 * Math.cos(sprite.angle) * @progress * sprite.speed
+        )
+
+        sprite.rotation = Math.sign(sprite.angle) * 360 * @progress * Math.PI / 180 + sprite.angle
+    else
+      @.onComplete()
+
+  onComplete: =>
+    for sprite in @sprites
+      sprite.parent.removeChild(sprite)
 
     @sprites = []
 

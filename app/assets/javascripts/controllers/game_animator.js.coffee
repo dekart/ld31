@@ -29,10 +29,12 @@ window.GameAnimator = class extends Animator
 
     @background_layer = new PIXI.DisplayObjectContainer()
     @object_layer = new PIXI.DisplayObjectContainer()
+    @particle_layer = new PIXI.DisplayObjectContainer()
     @snowflake_layer = new SnowflakeEmitter()
 
     @stage.addChild(@background_layer)
     @stage.addChild(@object_layer)
+    @stage.addChild(@particle_layer)
     @stage.addChild(@snowflake_layer)
 
     @lumberjack_sprites = []
@@ -413,7 +415,7 @@ window.GameAnimator = class extends Animator
 
       pieces.push(sprite)
 
-      @object_layer.addChild(sprite)
+      @particle_layer.addChild(sprite)
 
     animation = new SnowballExplosionAnimation(@)
     animation.start(pieces)
@@ -446,3 +448,25 @@ window.GameAnimator = class extends Animator
   hitSnowman: ->
     @snowman_hit_animation ?= new SnowmanHitAnimation()
     @snowman_hit_animation.start(@snowman_sprite)
+
+  hitPine: ->
+    pieces = []
+
+    for i in [0 .. 4]
+      sprite = PIXI.Sprite.fromFrame("splint.png")
+      sprite.start_at = new PIXI.Point(
+        @.objectToSceneX(@controller.pine.x),
+        @.objectToSceneY(@controller.pine.y - 25)
+      )
+      sprite.anchor.x = 0.5
+      sprite.anchor.y = 0.5
+      sprite.scale.set(0.2 + 0.8 * Math.random(), 0.2 + 0.8 * Math.random())
+      sprite.angle = _.random(0, 360) * Math.PI / 180 * _.shuffle([-1, 1])[0]
+      sprite.speed = 0.5 + Math.random() * 1.5
+
+      pieces.push(sprite)
+
+      @particle_layer.addChild(sprite)
+
+    animation = new PineHitAnimation(@)
+    animation.start(pieces)
