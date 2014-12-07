@@ -53,10 +53,16 @@ window.GameController = class extends BaseController
     # Logic goes here
     current_time = Date.now()
 
-    @.emitLumberjacks(current_time)
-    @.emitSnowballs(current_time)
+    # Snowman checks
 
     @snowman.updateState(current_time)
+
+    @.checkCarrotCollection()
+    @.checkCarrotDelivery()
+
+    # Snowball checks
+
+    @.emitSnowballs(current_time)
 
     for snowball in @snowballs
       snowball.updateState(current_time)
@@ -64,10 +70,15 @@ window.GameController = class extends BaseController
     @.checkSnowballCollisions()
     @.checkSnowballExpiration()
 
+    # Lumberjack checks
+
+    @.emitLumberjacks(current_time)
     @.checkLumberjackHealth()
 
     for jack in @lumberjacks
       jack.updateState(current_time)
+
+    # Rabbit checks
 
     @.emitRabbit(current_time)
 
@@ -77,8 +88,11 @@ window.GameController = class extends BaseController
 
     @.emitCarrots(current_time)
 
+
     if @pine.health <= 0
-      @.finish()
+      @.finish('chopped')
+    else if @pine.isBeautiful()
+      @.finish('beautified')
 
   updateMousePosition: (event)->
     touchpoint = if event.originalEvent.touches? then event.originalEvent.touches[0] else event
@@ -138,10 +152,14 @@ window.GameController = class extends BaseController
 
     e.preventDefault() unless process_default?
 
-  finish: ->
+  finish: (result)->
     @animator.deactivate()
 
-    console.log('Game over!')
+    switch result
+      when 'chopped'
+        console.log('Game over!')
+      when 'beautified'
+        alert('Merry Christmas!')
 
   emitLumberjacks: (current_time)->
     if current_time > @lumberjack_emitted_at + @lumberjacks_every * 1000
@@ -228,3 +246,21 @@ window.GameController = class extends BaseController
       @animator.addCarrot(carrot)
 
       @carrots.push(carrot)
+
+  checkCarrotCollection: ->
+    collected = []
+
+    for carrot in @carrots
+      if @snowman.takeCarrot(carrot)
+        collected.push(carrot)
+
+    for carrot in collected
+      @animator.removeCarrot(carrot)
+
+      @carrots.splice(@carrots.indexOf(carrot), 1)
+
+  checkCarrotDelivery: ->
+    if @snowman.carrots > 0 and @pine.y - 75 < @snowman.y < @pine.y + 25 and @pine.x - 45 < @snowman.x < @pine.x + 45
+      @pine.carrots += @snowman.carrots
+
+      @snowman.deliverCarrots()

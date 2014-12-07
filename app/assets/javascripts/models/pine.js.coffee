@@ -7,7 +7,12 @@ window.Pine = class
 
     @got_hit = false
 
+    @carrots = 0
+
   takeHit: ->
     @health -= 1
 
     @got_hit = true
+
+  isBeautiful: ->
+    @carrots >= 10

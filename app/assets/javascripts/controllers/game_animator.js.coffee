@@ -2,6 +2,13 @@
 
 window.GameAnimator = class extends Animator
   movementAnimationSpeed: 300
+  carrotPositions:
+    [
+      [25, -27], [11, -30], [-4, -34], [-16, -37]
+      [17, -45], [3, -52], [-9, -61],
+      [11, -65], [3, -74], [-5, -85]
+
+    ]
 
   # loops: # [StartFrame, EndFrame, Speed]
     # object: {frames: [0,  3], speed: 0.2}
@@ -64,25 +71,32 @@ window.GameAnimator = class extends Animator
 
     speedx = @controller.snowman.speed.x
     speedy = @controller.snowman.speed.y
+    direction = @controller.snowman.direction()
 
     for key, sprite of @snowman_sprite.directions
-      sprite.visible = switch key
-        when 'down_left'
-          speedx == -1 and speedy == 1
-        when 'left'
-          speedx == -1 and speedy == 0
-        when 'up_left'
-          speedx == -1 and speedy == -1
-        when 'up'
-          speedx == 0 and speedy == -1
-        when 'up_right'
-          speedx == 1 and speedy == -1
-        when 'right'
-          speedx == 1 and speedy == 0
-        when 'down_right'
-          speedx == 1 and speedy == 1
-        else
-          speedx == 0 and (speedy == 1 or speedy == 0)
+      sprite.visible = (direction == key)
+
+    switch @controller.snowman.carrots
+      when 2
+        @snowman_sprite.carrot1.visible = true
+        @snowman_sprite.carrot2.visible = true
+      when 1
+        @snowman_sprite.carrot1.visible = true
+        @snowman_sprite.carrot2.visible = false
+      when 0
+        @snowman_sprite.carrot1.visible = false
+        @snowman_sprite.carrot2.visible = false
+
+    # Drop carrot positions to their defaults
+    @snowman_sprite.carrot1.position.x = -20
+    @snowman_sprite.carrot2.position.y = -35
+
+    switch direction
+      when 'up_right', 'down_left'
+        @snowman_sprite.carrot2.position.y = -25
+      when 'left', 'right'
+        @snowman_sprite.carrot1.position.x = 0
+        @snowman_sprite.carrot2.visible = false
 
     for sprite in @lumberjack_sprites
       sprite.position.x = @.objectToSceneX(sprite.source.x)
@@ -105,6 +119,9 @@ window.GameAnimator = class extends Animator
 
       @controller.pine.got_hit = false
 
+    for carrot, i in @pine_sprite.carrots
+      carrot.visible = (@controller.pine.carrots > i)
+
   sortSpritesByLayers: ->
     for sprite, index in _.sortBy(@object_layer.children, (c)-> c.position.y)
       @object_layer.setChildIndex(sprite, index) unless @object_layer.getChildIndex(sprite) == index
@@ -119,6 +136,19 @@ window.GameAnimator = class extends Animator
     container.tree_sprite.anchor.y = 1
 
     container.addChild(container.tree_sprite)
+
+    container.carrots = []
+
+    for i in [0 .. 9]
+      carrot = PIXI.Sprite.fromFrame("carrot.png")
+      carrot.position.set(@.carrotPositions[i]...)
+      carrot.anchor.set(0.5)
+      carrot.scale.set(0.7)
+      carrot.rotation = _.random(-30, 30) * Math.PI / 180
+
+      container.carrots.push(carrot)
+
+      container.addChild(carrot)
 
     container
 
@@ -147,6 +177,19 @@ window.GameAnimator = class extends Animator
       sprite.visible = false
 
       container.addChild(sprite)
+
+    container.carrot1 = PIXI.Sprite.fromFrame('carrot.png')
+    container.carrot1.position.y = -30
+    container.carrot1.scale.set(0.5)
+    container.carrot1.visible = false
+
+    container.carrot2 = PIXI.Sprite.fromFrame('carrot.png')
+    container.carrot2.position.x = 15
+    container.carrot2.scale.set(0.5)
+    container.carrot2.visible = false
+
+    container.addChild(container.carrot1)
+    container.addChild(container.carrot2)
 
     container
 
@@ -295,3 +338,12 @@ window.GameAnimator = class extends Animator
     sprite.source = object
     sprite.rotation = _.shuffle([-60, -45, -30, 30, 45, 60])[0] * Math.PI / 180
     sprite
+
+  removeCarrot: (carrot)->
+    sprite = _.detect(@carrot_sprites, (s)=> s.source == carrot)
+
+    @carrot_sprites.splice(@carrot_sprites.indexOf(sprite), 1)
+
+    @object_layer.removeChild(sprite)
+
+  deliverCarrots: ->
