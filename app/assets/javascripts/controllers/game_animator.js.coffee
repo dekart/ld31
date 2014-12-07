@@ -11,7 +11,7 @@ window.GameAnimator = class extends Animator
     ]
 
   loops: # [StartFrame, EndFrame, Speed]
-    rabbit: {frames: [0,  4], speed: 0.2}
+    rabbit: {frames: [0,  4], speed: 0.25}
     snowman_up: {frames: [0,  3], speed: 0.2}
     snowman_down: {frames: [0,  3], speed: 0.2}
     snowman_side: {frames: [0,  3], speed: 0.2}
@@ -22,6 +22,7 @@ window.GameAnimator = class extends Animator
     lumberjack_side: {frames: [0,  3], speed: 0.2}
     lumberjack_down_side: {frames: [0,  3], speed: 0.2}
     lumberjack_up_side: {frames: [0,  3], speed: 0.2}
+    lumberjack_chop: {frames: [0,  5], speed: 0.3}
 
   constructor: (controller)->
     super(controller)
@@ -118,6 +119,10 @@ window.GameAnimator = class extends Animator
     for sprite in @lumberjack_sprites
       sprite.position.x = @.objectToSceneX(sprite.source.x)
       sprite.position.y = @.objectToSceneY(sprite.source.y)
+
+      sprite.walk_sprite.visible = (sprite.source.state == 'moving')
+      sprite.chop_sprite.visible = (sprite.source.state == 'hitting')
+      sprite.chop_sprite.scale.x = (if sprite.source.x < sprite.source.pine.x then -1 else 1)
 
     for sprite in @snowball_sprites
       sprite.position.x = @.objectToSceneX(sprite.source.x)
@@ -292,6 +297,16 @@ window.GameAnimator = class extends Animator
     container.walk_sprite.anchor.y = 1
 
     container.addChild(container.walk_sprite)
+
+    container.chop_sprite = new PIXI.MovieClip(@.loops["lumberjack_chop"].textures)
+    container.chop_sprite.animationSpeed = @.loops["lumberjack_chop"].speed
+    container.chop_sprite.play()
+
+    container.chop_sprite.anchor.x = 0.5
+    container.chop_sprite.anchor.y = 1
+    container.chop_sprite.visible = false
+
+    container.addChild(container.chop_sprite)
 
     container
 
