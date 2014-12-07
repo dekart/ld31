@@ -225,6 +225,7 @@ window.GameController = class extends BaseController
         hits.push([snowball, lumberjack]) if snowball.inHitRange(lumberjack)
 
     for [snowball, lumberjack] in hits
+      @animator.explodeSnowball(snowball)
       @.removeSnowball(snowball)
 
       lumberjack.takeHit()

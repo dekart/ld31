@@ -399,6 +399,25 @@ window.GameAnimator = class extends Animator
 
     @object_layer.removeChild(sprite)
 
+  explodeSnowball: (snowball)->
+    pieces = []
+
+    for i in [0 .. 10]
+      sprite = PIXI.Sprite.fromFrame("snowball.png")
+      sprite.position.x = @.objectToSceneX(snowball.x)
+      sprite.position.y = @.objectToSceneY(snowball.y)
+      sprite.anchor.x = 0.5
+      sprite.anchor.y = 0.5
+      sprite.scale.set(0.25 + 0.5 * Math.random())
+      sprite.rotation = _.random(0, 360) * Math.PI / 180
+
+      pieces.push(sprite)
+
+      @object_layer.addChild(sprite)
+
+    animation = new SnowballExplosionAnimation(@)
+    animation.start(pieces)
+
 
   addCarrot: (carrot)->
     sprite = @.createCarrotSprite(carrot)

@@ -80,3 +80,29 @@ window.SnowmanHitAnimation = class extends BaseAnimation
     @sprite.alpha = 1
 
     super
+
+
+window.SnowballExplosionAnimation = class extends BaseAnimation
+  speed: 200
+
+  start: (@sprites)->
+    @progress = 0
+
+    createjs.Tween.get(@).to(progress: 1, @.speed).on('change', @.onChange)
+
+    @.onChange()
+
+  onChange: =>
+    if @progress < 1
+      for sprite in @sprites
+        sprite.anchor.set(0.5 + 7 * sprite.scale.x * Math.cos(sprite.rotation) * @progress)
+    else
+      @.onComplete()
+
+  onComplete: =>
+    for sprite in @sprites
+      @animator.object_layer.removeChild(sprite)
+
+    @sprites = []
+
+    super
