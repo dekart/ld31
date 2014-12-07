@@ -18,6 +18,11 @@ window.GameController = class extends BaseController
     @lumberjack_emitted_at = 0
     @lumberjacks_every = 2
 
+    @shooting = false
+    @snowballs = []
+    @snowball_emitted_at = 0
+    @snowballs_every = 0.4
+
   show: ->
     @.setupEventListeners()
 
@@ -43,8 +48,17 @@ window.GameController = class extends BaseController
     current_time = Date.now()
 
     @.emitLumberjacks(current_time)
+    @.emitSnowballs(current_time)
 
     @snowman.updateState(current_time)
+
+    for snowball in @snowballs
+      snowball.updateState(current_time)
+
+    @.checkSnowballCollisions()
+    @.checkSnowballExpiration()
+
+    @.checkLumberjackHealth()
 
     for jack in @lumberjacks
       jack.updateState(current_time)
@@ -68,6 +82,8 @@ window.GameController = class extends BaseController
 
     # Logic goes here
 
+    @shooting = true
+
   onTouchMove: (e)=>
     e.preventDefault()
 
@@ -81,6 +97,8 @@ window.GameController = class extends BaseController
     @.updateMousePosition(e)
 
     # Logic goes here
+
+    @shooting = false
 
   onKeyDown: (e)=>
     switch e.keyCode
@@ -111,7 +129,7 @@ window.GameController = class extends BaseController
   finish: ->
     @animator.deactivate()
 
-    alert('Game over!')
+    console.log('Game over!')
 
   emitLumberjacks: (current_time)->
     if current_time > @lumberjack_emitted_at + @lumberjacks_every * 1000
@@ -123,3 +141,54 @@ window.GameController = class extends BaseController
       @animator.addLumberjack(jack)
 
       @lumberjack_emitted_at = current_time
+
+  checkLumberjackHealth: ->
+    killed = []
+
+    for lumberjack in @lumberjacks
+      killed.push(lumberjack) if lumberjack.health <= 0
+
+    for lumberjack in killed
+      @.removeLumberjack(lumberjack)
+
+  removeLumberjack: (lumberjack)->
+    @animator.removeLumberjack(lumberjack)
+
+    @lumberjacks.splice(@lumberjacks.indexOf(lumberjack), 1)
+
+  emitSnowballs: (current_time)->
+    if @shooting and current_time > @snowball_emitted_at + @snowballs_every * 1000
+      snowball = new Snowball(@snowman.x, @snowman.y)
+      snowball.aimTo(@mouse_position)
+
+      @snowballs.push(snowball)
+
+      @animator.addSnowball(snowball)
+
+      @snowball_emitted_at = current_time
+
+  checkSnowballCollisions: ->
+    hits = []
+
+    for snowball in @snowballs
+      for lumberjack in @lumberjacks
+        hits.push([snowball, lumberjack]) if snowball.inHitRange(lumberjack)
+
+    for [snowball, lumberjack] in hits
+      @.removeSnowball(snowball)
+
+      lumberjack.takeHit()
+
+  checkSnowballExpiration: ->
+    expired = []
+
+    for snowball in @snowballs
+      expired.push(snowball) if snowball.isExpired()
+
+    for snowball in expired
+      @.removeSnowball(snowball)
+
+  removeSnowball: (snowball)->
+    @animator.removeSnowball(snowball)
+
+    @snowballs.splice(@snowballs.indexOf(snowball), 1)

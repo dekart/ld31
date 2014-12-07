@@ -16,6 +16,7 @@ window.GameAnimator = class extends Animator
     @stage.addChild(@object_layer)
 
     @lumberjack_sprites = []
+    @snowball_sprites = []
 
   activate: ->
     return unless super
@@ -40,9 +41,6 @@ window.GameAnimator = class extends Animator
 
     @object_layer.addChild(@snowman_sprite)
 
-    for jack in @controller.lumberjacks
-      @.addLumberjack(jack)
-
     @sprites_added = true
 
   animate: =>
@@ -60,29 +58,33 @@ window.GameAnimator = class extends Animator
     @snowman_sprite.position.x = @.objectToSceneX(@controller.snowman.x)
     @snowman_sprite.position.y = @.objectToSceneY(@controller.snowman.y)
 
-    speedX = @controller.snowman.speed.x
-    speedY = @controller.snowman.speed.y
+    speedx = @controller.snowman.speed.x
+    speedy = @controller.snowman.speed.y
 
     for key, sprite of @snowman_sprite.directions
       sprite.visible = switch key
         when 'down_left'
-          speedX == -1 and speedY == 1
+          speedx == -1 and speedy == 1
         when 'left'
-          speedX == -1 and speedY == 0
+          speedx == -1 and speedy == 0
         when 'up_left'
-          speedX == -1 and speedY == -1
+          speedx == -1 and speedy == -1
         when 'up'
-          speedX == 0 and speedY == -1
+          speedx == 0 and speedy == -1
         when 'up_right'
-          speedX == 1 and speedY == -1
+          speedx == 1 and speedy == -1
         when 'right'
-          speedX == 1 and speedY == 0
+          speedx == 1 and speedy == 0
         when 'down_right'
-          speedX == 1 and speedY == 1
+          speedx == 1 and speedy == 1
         else
-          speedX == 0 and (speedY == 1 or speedY == 0)
+          speedx == 0 and (speedy == 1 or speedy == 0)
 
     for sprite in @lumberjack_sprites
+      sprite.position.x = @.objectToSceneX(sprite.source.x)
+      sprite.position.y = @.objectToSceneX(sprite.source.y)
+
+    for sprite in @snowball_sprites
       sprite.position.x = @.objectToSceneX(sprite.source.x)
       sprite.position.y = @.objectToSceneX(sprite.source.y)
 
@@ -192,17 +194,26 @@ window.GameAnimator = class extends Animator
     sprite.position.x = @.objectToSceneX(_.random(0, canvasSize.width))
     sprite.position.y = @.objectToSceneY(_.random(0, canvasSize.height))
 
-    dX = sprite.position.x - canvasSize.width / 2
-    dY = sprite.position.y - canvasSize.height / 2
+    dx = sprite.position.x - canvasSize.width / 2
+    dy = sprite.position.y - canvasSize.height / 2
 
-    if Math.abs(dX) < 75 and Math.abs(dY) < 75
-      sprite.position.x += _.random(50, 100) * Math.sign(dX)
-      sprite.position.y += _.random(50, 100) * Math.sign(dY)
+    if Math.abs(dx) < 75 and Math.abs(dy) < 75
+      sprite.position.x += _.random(50, 100) * Math.sign(dx)
+      sprite.position.y += _.random(50, 100) * Math.sign(dy)
 
     sprite.anchor.x = 0.5
     sprite.anchor.y = 1
     sprite.scale.y = _.random(0, 10) * 0.03 + 0.7
     sprite.scale.x = sprite.scale.y * _.shuffle([-1, 1])[0]
+    sprite
+
+  createSnowballSprite: (object)->
+    sprite = PIXI.Sprite.fromFrame("snowball.png")
+    sprite.position.x = @.objectToSceneX(object.x)
+    sprite.position.y = @.objectToSceneY(object.y)
+    sprite.anchor.x = 0.5
+    sprite.anchor.y = 0.5
+    sprite.source = object
     sprite
 
   objectToSceneX: (coordinate)->
@@ -221,3 +232,24 @@ window.GameAnimator = class extends Animator
     @lumberjack_sprites.push(sprite)
 
     @object_layer.addChild(sprite)
+
+  removeLumberjack: (lumberjack)->
+    sprite = _.detect(@lumberjack_sprites, (s)=> s.source == lumberjack)
+
+    @lumberjack_sprites.splice(@lumberjack_sprites.indexOf(sprite), 1)
+
+    @object_layer.removeChild(sprite)
+
+  addSnowball: (snowball)->
+    sprite = @.createSnowballSprite(snowball)
+
+    @snowball_sprites.push(sprite)
+
+    @object_layer.addChild(sprite)
+
+  removeSnowball: (snowball)->
+    sprite = _.detect(@snowball_sprites, (s)=> s.source == snowball)
+
+    @snowball_sprites.splice(@snowball_sprites.indexOf(sprite), 1)
+
+    @object_layer.removeChild(sprite)

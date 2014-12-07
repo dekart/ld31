@@ -7,7 +7,7 @@ window.Pine = class
 
     @got_hit = false
 
-  getHit: ->
+  takeHit: ->
     @health -= 1
 
     @got_hit = true

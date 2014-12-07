@@ -17,6 +17,8 @@ window.Lumberjack = class
     @speed = {x: 0, y: 0}
     @target = {x: 0, y: 0}
 
+    @health = 3
+
     @.startMoving()
 
   startMoving: ->
@@ -34,10 +36,10 @@ window.Lumberjack = class
   updatePosition: (current_time)->
     delta = (current_time - @last_position_update_at) / 1000
 
-    dX = Math.abs(@target.x - @x)
-    dY = Math.abs(@target.y - @y)
+    dx = Math.abs(@target.x - @x)
+    dy = Math.abs(@target.y - @y)
 
-    if dX + dY < 5
+    if dx + dy < 5
       @x = @target.x
       @y = @target.y
 
@@ -52,7 +54,7 @@ window.Lumberjack = class
     delta = (current_time - @last_hit_at) / 1000
 
     if delta >= @.hitEvery
-      @pine.getHit()
+      @pine.takeHit()
 
       @last_hit_at = current_time
 
@@ -64,12 +66,23 @@ window.Lumberjack = class
 
     @target.y = @pine.y - _.random(-5, 50)
 
-    dX = @target.x - @x
-    dY = @target.y - @y
+    dx = @target.x - @x
+    dy = @target.y - @y
 
-    if Math.abs(dX) > Math.abs(dY)
-      @speed.x = Math.sign(dX)
-      @speed.y = Math.sign(dY) * Math.abs(dY) / Math.abs(dX)
+    if Math.abs(dx) > Math.abs(dy)
+      @speed.x = Math.sign(dx)
+      @speed.y = Math.sign(dy) * Math.abs(dy) / Math.abs(dx)
     else
-      @speed.y = Math.sign(dY)
-      @speed.x = Math.sign(dX) * Math.abs(dX) / Math.abs(dY)
+      @speed.y = Math.sign(dy)
+      @speed.x = Math.sign(dx) * Math.abs(dx) / Math.abs(dy)
+
+  getHitZone: ->
+    [
+      @x,
+      @y - 24,
+      14,
+      20
+    ]
+
+  takeHit: ->
+    @health -= 1
