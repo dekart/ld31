@@ -12,8 +12,7 @@
 #= require i18n
 #= require i18n/translations
 
-#= require soundmanager2
-#= require sounds
+#= require sounds2
 
 #= require_tree ./lib
 #= require_tree ./helpers

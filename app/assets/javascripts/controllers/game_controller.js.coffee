@@ -29,6 +29,8 @@ window.GameController = class extends BaseController
 
     @carrots = []
 
+    @sounds = new Sounds2()
+
   show: ->
     @.setupEventListeners()
 
@@ -80,6 +82,13 @@ window.GameController = class extends BaseController
 
     @.checkSnowmanHit()
 
+    @last_walk_sound_at ?= current_time
+
+    if @rabbit and current_time > @last_walk_sound_at + 500
+      @sounds.playSound('walk')
+
+      @last_walk_sound_at = current_time
+
     # Rabbit checks
 
     @.emitRabbit()
@@ -97,6 +106,9 @@ window.GameController = class extends BaseController
       @.finish('destroyed')
     else if @pine.isBeautiful()
       @.finish('beautified')
+
+    if @pine.got_hit
+      @sounds.playSound('chop')
 
   updateMousePosition: (event)->
     touchpoint = if event.originalEvent.touches? then event.originalEvent.touches[0] else event
@@ -203,6 +215,8 @@ window.GameController = class extends BaseController
 
       @snowball_emitted_at = current_time
 
+      @sounds.playSound('throw')
+
   checkSnowballCollisions: ->
     hits = []
 
@@ -214,6 +228,8 @@ window.GameController = class extends BaseController
       @.removeSnowball(snowball)
 
       lumberjack.takeHit()
+
+      @sounds.playSound('snowball_hit')
 
   checkSnowballExpiration: ->
     expired = []
@@ -253,6 +269,8 @@ window.GameController = class extends BaseController
 
       @carrots.push(carrot)
 
+      @sounds.playSound('drop')
+
   checkCarrotExpiration: ->
     expired = []
 
@@ -280,11 +298,16 @@ window.GameController = class extends BaseController
     for carrot in collected
       @.removeCarrot(carrot)
 
+    if collected.length > 0
+      @sounds.playSound('pickup')
+
   checkCarrotDelivery: ->
     if @snowman.carrots > 0 and @pine.y - 75 < @snowman.y < @pine.y + 25 and @pine.x - 45 < @snowman.x < @pine.x + 45
       @pine.carrots += @snowman.carrots
 
       @snowman.deliverCarrots()
+
+      @sounds.playSound('deliver')
 
 
   checkSnowmanHit: ->

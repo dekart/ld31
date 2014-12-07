@@ -11,7 +11,7 @@ window.Lumberjack = class
         [canvasSize.width + 50, _.random(0, canvasSize.height)]
 
   pixelsPerSecond: 50
-  hitEvery: 1.5
+  hitEvery: 0.5
 
   constructor: (@x, @y)->
     @speed = {x: 0, y: 0}

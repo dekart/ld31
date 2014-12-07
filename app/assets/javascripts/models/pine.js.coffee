@@ -3,7 +3,7 @@ window.Pine = class
     @x = canvasSize.width / 2
     @y = canvasSize.height / 2
 
-    @health = 20
+    @health = 50
 
     @got_hit = false
 
