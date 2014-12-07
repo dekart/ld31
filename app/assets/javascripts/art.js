@@ -2,7 +2,7 @@ var artSprite = {
 
   "carrot.png":
   {
-    "frame": {"x":406,"y":2,"w":17,"h":30},
+    "frame": {"x":962,"y":2,"w":17,"h":30},
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": {
@@ -16,7 +16,7 @@ var artSprite = {
 
   "lumberjack_down.png":
   {
-    "frame": {"x":162,"y":2,"w":32,"h":48},
+    "frame": {"x":162,"y":54,"w":32,"h":48},
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": {
@@ -30,7 +30,7 @@ var artSprite = {
 
   "lumberjack_down_side.png":
   {
-    "frame": {"x":162,"y":52,"w":32,"h":48},
+    "frame": {"x":196,"y":54,"w":32,"h":48},
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": {
@@ -44,7 +44,7 @@ var artSprite = {
 
   "lumberjack_side.png":
   {
-    "frame": {"x":196,"y":2,"w":32,"h":48},
+    "frame": {"x":230,"y":54,"w":32,"h":48},
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": {
@@ -58,7 +58,7 @@ var artSprite = {
 
   "lumberjack_up.png":
   {
-    "frame": {"x":196,"y":52,"w":32,"h":48},
+    "frame": {"x":264,"y":54,"w":32,"h":48},
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": {
@@ -72,7 +72,7 @@ var artSprite = {
 
   "lumberjack_up_side.png":
   {
-    "frame": {"x":230,"y":2,"w":32,"h":48},
+    "frame": {"x":298,"y":54,"w":32,"h":48},
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": {
@@ -98,9 +98,79 @@ var artSprite = {
     "sourceSize": {"w":90,"h":100}
   }, 
 
+  "rabbit_0000.png":
+  {
+    "frame": {"x":162,"y":2,"w":50,"h":50},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":50,
+      "h":50
+    },
+    "sourceSize": {"w":50,"h":50}
+  }, 
+
+  "rabbit_0001.png":
+  {
+    "frame": {"x":214,"y":2,"w":50,"h":50},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":50,
+      "h":50
+    },
+    "sourceSize": {"w":50,"h":50}
+  }, 
+
+  "rabbit_0002.png":
+  {
+    "frame": {"x":266,"y":2,"w":50,"h":50},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":50,
+      "h":50
+    },
+    "sourceSize": {"w":50,"h":50}
+  }, 
+
+  "rabbit_0003.png":
+  {
+    "frame": {"x":318,"y":2,"w":50,"h":50},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":50,
+      "h":50
+    },
+    "sourceSize": {"w":50,"h":50}
+  }, 
+
+  "rabbit_0004.png":
+  {
+    "frame": {"x":370,"y":2,"w":50,"h":50},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":50,
+      "h":50
+    },
+    "sourceSize": {"w":50,"h":50}
+  }, 
+
   "rabbit_jumping.png":
   {
-    "frame": {"x":364,"y":2,"w":40,"h":40},
+    "frame": {"x":906,"y":50,"w":40,"h":40},
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": {
@@ -114,7 +184,7 @@ var artSprite = {
 
   "rabbit_sitting.png":
   {
-    "frame": {"x":380,"y":44,"w":40,"h":40},
+    "frame": {"x":948,"y":50,"w":40,"h":40},
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": {
@@ -142,7 +212,7 @@ var artSprite = {
 
   "snowflake.png":
   {
-    "frame": {"x":94,"y":91,"w":10,"h":10},
+    "frame": {"x":906,"y":92,"w":10,"h":10},
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": {
@@ -156,7 +226,7 @@ var artSprite = {
 
   "snowman_down.png":
   {
-    "frame": {"x":230,"y":52,"w":48,"h":42},
+    "frame": {"x":656,"y":50,"w":48,"h":42},
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": {
@@ -166,11 +236,67 @@ var artSprite = {
       "h":42
     },
     "sourceSize": {"w":48,"h":42}
+  }, 
+
+  "snowman_down_0000.png":
+  {
+    "frame": {"x":422,"y":2,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
+  }, 
+
+  "snowman_down_0001.png":
+  {
+    "frame": {"x":476,"y":2,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
+  }, 
+
+  "snowman_down_0002.png":
+  {
+    "frame": {"x":530,"y":2,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
+  }, 
+
+  "snowman_down_0003.png":
+  {
+    "frame": {"x":584,"y":2,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
   }, 
 
   "snowman_down_side.png":
   {
-    "frame": {"x":264,"y":2,"w":48,"h":42},
+    "frame": {"x":706,"y":50,"w":48,"h":42},
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": {
@@ -180,11 +306,67 @@ var artSprite = {
       "h":42
     },
     "sourceSize": {"w":48,"h":42}
+  }, 
+
+  "snowman_down_side_0000.png":
+  {
+    "frame": {"x":638,"y":2,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
+  }, 
+
+  "snowman_down_side_0001.png":
+  {
+    "frame": {"x":692,"y":2,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
+  }, 
+
+  "snowman_down_side_0002.png":
+  {
+    "frame": {"x":638,"y":2,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
+  }, 
+
+  "snowman_down_side_0003.png":
+  {
+    "frame": {"x":746,"y":2,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
   }, 
 
   "snowman_side.png":
   {
-    "frame": {"x":280,"y":46,"w":48,"h":42},
+    "frame": {"x":756,"y":50,"w":48,"h":42},
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": {
@@ -194,11 +376,67 @@ var artSprite = {
       "h":42
     },
     "sourceSize": {"w":48,"h":42}
+  }, 
+
+  "snowman_side_0000.png":
+  {
+    "frame": {"x":800,"y":2,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
+  }, 
+
+  "snowman_side_0001.png":
+  {
+    "frame": {"x":854,"y":2,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
+  }, 
+
+  "snowman_side_0002.png":
+  {
+    "frame": {"x":800,"y":2,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
+  }, 
+
+  "snowman_side_0003.png":
+  {
+    "frame": {"x":908,"y":2,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
   }, 
 
   "snowman_up.png":
   {
-    "frame": {"x":314,"y":2,"w":48,"h":42},
+    "frame": {"x":806,"y":50,"w":48,"h":42},
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": {
@@ -210,9 +448,65 @@ var artSprite = {
     "sourceSize": {"w":48,"h":42}
   }, 
 
+  "snowman_up_0000.png":
+  {
+    "frame": {"x":332,"y":54,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
+  }, 
+
+  "snowman_up_0001.png":
+  {
+    "frame": {"x":386,"y":54,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
+  }, 
+
+  "snowman_up_0002.png":
+  {
+    "frame": {"x":332,"y":54,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
+  }, 
+
+  "snowman_up_0003.png":
+  {
+    "frame": {"x":440,"y":50,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
+  }, 
+
   "snowman_up_side.png":
   {
-    "frame": {"x":330,"y":46,"w":48,"h":42},
+    "frame": {"x":856,"y":50,"w":48,"h":42},
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": {
@@ -222,6 +516,62 @@ var artSprite = {
       "h":42
     },
     "sourceSize": {"w":48,"h":42}
+  }, 
+
+  "snowman_up_side_0000.png":
+  {
+    "frame": {"x":494,"y":50,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
+  }, 
+
+  "snowman_up_side_0001.png":
+  {
+    "frame": {"x":548,"y":50,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
+  }, 
+
+  "snowman_up_side_0002.png":
+  {
+    "frame": {"x":494,"y":50,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
+  }, 
+
+  "snowman_up_side_0003.png":
+  {
+    "frame": {"x":602,"y":50,"w":52,"h":46},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":52,
+      "h":46
+    },
+    "sourceSize": {"w":52,"h":46}
   }, 
 
   "tree.png":
@@ -240,4 +590,4 @@ var artSprite = {
 
 };
 
-/* $TexturePacker:SmartUpdate:0337b73d469ba96e2801b0ba84816e13:51663612a3dbc210fa8d3f782f669bca:b4690bc4e9404001c1481325e4112eb5$ */
+/* $TexturePacker:SmartUpdate:298565126a48ccacbccb6f6df71079bb:70e98029d0bdb5ccb3e7251921e7c68c:b4690bc4e9404001c1481325e4112eb5$ */

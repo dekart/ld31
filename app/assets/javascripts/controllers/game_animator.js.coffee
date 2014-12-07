@@ -10,8 +10,13 @@ window.GameAnimator = class extends Animator
 
     ]
 
-  # loops: # [StartFrame, EndFrame, Speed]
-    # object: {frames: [0,  3], speed: 0.2}
+  loops: # [StartFrame, EndFrame, Speed]
+    rabbit: {frames: [0,  4], speed: 0.2}
+    snowman_up: {frames: [0,  3], speed: 0.2}
+    snowman_down: {frames: [0,  3], speed: 0.2}
+    snowman_side: {frames: [0,  3], speed: 0.2}
+    snowman_up_side: {frames: [0,  3], speed: 0.2}
+    snowman_down_side: {frames: [0,  3], speed: 0.2}
 
   constructor: (controller)->
     super(controller)
@@ -77,6 +82,11 @@ window.GameAnimator = class extends Animator
 
     for key, sprite of @snowman_sprite.directions
       sprite.visible = (direction == key)
+
+    if speedx == 0 and speedy == 0
+      @snowman_sprite.directions.down.gotoAndStop(0)
+    else
+      @snowman_sprite.directions.down.play()
 
     switch @controller.snowman.carrots
       when 2
@@ -166,16 +176,39 @@ window.GameAnimator = class extends Animator
 
     container.directions = {}
 
-    container.directions.down = PIXI.Sprite.fromFrame("snowman_down.png")
-    container.directions.down_left = PIXI.Sprite.fromFrame("snowman_down_side.png")
-    container.directions.left = PIXI.Sprite.fromFrame("snowman_side.png")
-    container.directions.up_left = PIXI.Sprite.fromFrame("snowman_up_side.png")
-    container.directions.up = PIXI.Sprite.fromFrame("snowman_up.png")
-    container.directions.up_right = PIXI.Sprite.fromFrame("snowman_up_side.png")
+    container.directions.down = new PIXI.MovieClip(@.loops["snowman_down"].textures)
+    container.directions.down.animationSpeed = @.loops["snowman_down"].speed
+    container.directions.down.play()
+
+    container.directions.down_left = new PIXI.MovieClip(@.loops["snowman_down_side"].textures)
+    container.directions.down_left.animationSpeed = @.loops["snowman_down_side"].speed
+    container.directions.down_left.play()
+
+    container.directions.left = new PIXI.MovieClip(@.loops["snowman_side"].textures)
+    container.directions.left.animationSpeed = @.loops["snowman_side"].speed
+    container.directions.left.play()
+
+    container.directions.up_left = new PIXI.MovieClip(@.loops["snowman_up_side"].textures)
+    container.directions.up_left.animationSpeed = @.loops["snowman_up_side"].speed
+    container.directions.up_left.play()
+
+    container.directions.up = new PIXI.MovieClip(@.loops["snowman_up"].textures)
+    container.directions.up.animationSpeed = @.loops["snowman_up"].speed
+    container.directions.up.play()
+
+    container.directions.up_right = new PIXI.MovieClip(@.loops["snowman_up_side"].textures)
+    container.directions.up_right.animationSpeed = @.loops["snowman_up_side"].speed
+    container.directions.up_right.play()
     container.directions.up_right.scale.x = -1
-    container.directions.right = PIXI.Sprite.fromFrame("snowman_side.png")
+
+    container.directions.right = new PIXI.MovieClip(@.loops["snowman_side"].textures)
+    container.directions.right.animationSpeed = @.loops["snowman_side"].speed
+    container.directions.right.play()
     container.directions.right.scale.x = -1
-    container.directions.down_right = PIXI.Sprite.fromFrame("snowman_down_side.png")
+
+    container.directions.down_right = new PIXI.MovieClip(@.loops["snowman_down_side"].textures)
+    container.directions.down_right.animationSpeed = @.loops["snowman_down_side"].speed
+    container.directions.down_right.play()
     container.directions.down_right.scale.x = -1
 
     for key, sprite of container.directions
@@ -254,7 +287,9 @@ window.GameAnimator = class extends Animator
 
 
   createRabbitSprite: (object)->
-    sprite = PIXI.Sprite.fromFrame("rabbit_sitting.png")
+    sprite = new PIXI.MovieClip(@.loops["rabbit"].textures)
+    sprite.animationSpeed = @.loops["rabbit"].speed
+    sprite.play()
     sprite.position.x = @.objectToSceneX(object.x)
     sprite.position.y = @.objectToSceneY(object.y)
     sprite.anchor.x = 0.5

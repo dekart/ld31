@@ -1,10 +1,10 @@
 $art_image_url: image-url('art.png');
 
-$art_piece_names: carrot, lumberjack_down, lumberjack_down_side, lumberjack_side, lumberjack_up, lumberjack_up_side, pine, rabbit_jumping, rabbit_sitting, snowball, snowflake, snowman_down, snowman_down_side, snowman_side, snowman_up, snowman_up_side, tree;
-$art_piece_widths: 17px, 32px, 32px, 32px, 32px, 32px, 90px, 40px, 40px, 11px, 10px, 48px, 48px, 48px, 48px, 48px, 66px;
-$art_piece_heights: 30px, 48px, 48px, 48px, 48px, 48px, 100px, 40px, 40px, 11px, 10px, 42px, 42px, 42px, 42px, 42px, 74px;
-$art_piece_positions_x: 406px, 162px, 162px, 196px, 196px, 230px, 2px, 364px, 380px, 94px, 94px, 230px, 264px, 280px, 314px, 330px, 94px;
-$art_piece_positions_y: 2px, 2px, 52px, 2px, 52px, 2px, 2px, 2px, 44px, 78px, 91px, 52px, 2px, 46px, 2px, 46px, 2px;
+$art_piece_names: carrot, lumberjack_down, lumberjack_down_side, lumberjack_side, lumberjack_up, lumberjack_up_side, pine, rabbit_0000, rabbit_0001, rabbit_0002, rabbit_0003, rabbit_0004, rabbit_jumping, rabbit_sitting, snowball, snowflake, snowman_down, snowman_down_0000, snowman_down_0001, snowman_down_0002, snowman_down_0003, snowman_down_side, snowman_down_side_0000, snowman_down_side_0001, snowman_down_side_0002, snowman_down_side_0003, snowman_side, snowman_side_0000, snowman_side_0001, snowman_side_0002, snowman_side_0003, snowman_up, snowman_up_0000, snowman_up_0001, snowman_up_0002, snowman_up_0003, snowman_up_side, snowman_up_side_0000, snowman_up_side_0001, snowman_up_side_0002, snowman_up_side_0003, tree;
+$art_piece_widths: 17px, 32px, 32px, 32px, 32px, 32px, 90px, 50px, 50px, 50px, 50px, 50px, 40px, 40px, 11px, 10px, 48px, 52px, 52px, 52px, 52px, 48px, 52px, 52px, 52px, 52px, 48px, 52px, 52px, 52px, 52px, 48px, 52px, 52px, 52px, 52px, 48px, 52px, 52px, 52px, 52px, 66px;
+$art_piece_heights: 30px, 48px, 48px, 48px, 48px, 48px, 100px, 50px, 50px, 50px, 50px, 50px, 40px, 40px, 11px, 10px, 42px, 46px, 46px, 46px, 46px, 42px, 46px, 46px, 46px, 46px, 42px, 46px, 46px, 46px, 46px, 42px, 46px, 46px, 46px, 46px, 42px, 46px, 46px, 46px, 46px, 74px;
+$art_piece_positions_x: 962px, 162px, 196px, 230px, 264px, 298px, 2px, 162px, 214px, 266px, 318px, 370px, 906px, 948px, 94px, 906px, 656px, 422px, 476px, 530px, 584px, 706px, 638px, 692px, 638px, 746px, 756px, 800px, 854px, 800px, 908px, 806px, 332px, 386px, 332px, 440px, 856px, 494px, 548px, 494px, 602px, 94px;
+$art_piece_positions_y: 2px, 54px, 54px, 54px, 54px, 54px, 2px, 2px, 2px, 2px, 2px, 2px, 50px, 50px, 78px, 92px, 50px, 2px, 2px, 2px, 2px, 50px, 2px, 2px, 2px, 2px, 50px, 2px, 2px, 2px, 2px, 50px, 54px, 54px, 54px, 50px, 50px, 50px, 50px, 50px, 50px, 2px;
 
 @function art-sprite-width($name) {
   $index: index($art_piece_names, $name);
@@ -57,4 +57,4 @@ $art_piece_positions_y: 2px, 2px, 52px, 2px, 52px, 2px, 2px, 2px, 44px, 78px, 91
   @include art-sprite-background($name);
 }
 
-// $TexturePacker:SmartUpdate:0337b73d469ba96e2801b0ba84816e13:51663612a3dbc210fa8d3f782f669bca:b4690bc4e9404001c1481325e4112eb5$
+// $TexturePacker:SmartUpdate:298565126a48ccacbccb6f6df71079bb:70e98029d0bdb5ccb3e7251921e7c68c:b4690bc4e9404001c1481325e4112eb5$
