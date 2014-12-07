@@ -16,12 +16,18 @@ window.GameController = class extends BaseController
 
     @lumberjacks = []
     @lumberjack_emitted_at = 0
-    @lumberjacks_every = 2
+    @lumberjacks_every = 1000#2
 
     @shooting = false
     @snowballs = []
     @snowball_emitted_at = 0
     @snowballs_every = 0.4
+
+    @rabbit = null
+    @rabbit_emitted_at = 0
+    @rabbit_every = 1#5
+
+    @carrots = []
 
   show: ->
     @.setupEventListeners()
@@ -62,6 +68,14 @@ window.GameController = class extends BaseController
 
     for jack in @lumberjacks
       jack.updateState(current_time)
+
+    @.emitRabbit(current_time)
+
+    @rabbit?.updateState(current_time)
+
+    @.checkRabbitExpiration(current_time)
+
+    @.emitCarrots(current_time)
 
     if @pine.health <= 0
       @.finish()
@@ -190,3 +204,27 @@ window.GameController = class extends BaseController
     @animator.removeSnowball(snowball)
 
     @snowballs.splice(@snowballs.indexOf(snowball), 1)
+
+  emitRabbit: (current_time)->
+    if not @rabbit and current_time > @rabbit_emitted_at + @rabbit_every * 1000
+      @rabbit_emitted_at = current_time
+
+      @rabbit = new Rabbit()
+
+      @animator.addRabbit(@rabbit)
+
+  checkRabbitExpiration: (current_time)->
+    if @rabbit?.isOutOfBounds()
+      @rabbit_emitted_at = current_time
+
+      @animator.removeRabbit()
+
+      @rabbit = null
+
+  emitCarrots: (current_time)->
+    if @rabbit?.dropCarrot(current_time)
+      carrot = new Carrot(@rabbit.x, @rabbit.y)
+
+      @animator.addCarrot(carrot)
+
+      @carrots.push(carrot)

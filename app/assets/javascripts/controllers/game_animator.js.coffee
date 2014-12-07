@@ -18,6 +18,10 @@ window.GameAnimator = class extends Animator
     @lumberjack_sprites = []
     @snowball_sprites = []
 
+    @rabbit_sprite = null
+
+    @carrot_sprites = []
+
   activate: ->
     return unless super
 
@@ -82,11 +86,18 @@ window.GameAnimator = class extends Animator
 
     for sprite in @lumberjack_sprites
       sprite.position.x = @.objectToSceneX(sprite.source.x)
-      sprite.position.y = @.objectToSceneX(sprite.source.y)
+      sprite.position.y = @.objectToSceneY(sprite.source.y)
 
     for sprite in @snowball_sprites
       sprite.position.x = @.objectToSceneX(sprite.source.x)
-      sprite.position.y = @.objectToSceneX(sprite.source.y)
+      sprite.position.y = @.objectToSceneY(sprite.source.y)
+
+    if @rabbit_sprite?
+      @rabbit_sprite.position.x = @.objectToSceneX(@rabbit_sprite.source.x)
+      @rabbit_sprite.position.y = @.objectToSceneY(@rabbit_sprite.source.y)
+
+    for sprite in @carrot_sprites
+      sprite.position.y = @.objectToSceneY(sprite.source.y + 2 * Math.sin((Date.now() - sprite.source.created_at) / 500))
 
     if @controller.pine.got_hit
       animation = new PineHitAnimation()
@@ -180,12 +191,25 @@ window.GameAnimator = class extends Animator
 
     container
 
+
+  addRabbit: (rabbit)->
+    @rabbit_sprite = @.createRabbitSprite(rabbit)
+
+    @object_layer.addChild(@rabbit_sprite)
+
+  removeRabbit: ->
+    @object_layer.removeChild(@rabbit_sprite)
+
+    @rabbit_sprite = null
+
+
   createRabbitSprite: (object)->
     sprite = PIXI.Sprite.fromFrame("rabbit_sitting.png")
-    sprite.position.x = @.objectToSceneX(200)
-    sprite.position.y = @.objectToSceneY(200)
+    sprite.position.x = @.objectToSceneX(object.x)
+    sprite.position.y = @.objectToSceneY(object.y)
     sprite.anchor.x = 0.5
-    sprite.anchor.y = 0.5
+    sprite.anchor.y = 1
+    sprite.scale.x = -1 if object.speed > 0
     sprite.source = object
     sprite
 
@@ -253,3 +277,21 @@ window.GameAnimator = class extends Animator
     @snowball_sprites.splice(@snowball_sprites.indexOf(sprite), 1)
 
     @object_layer.removeChild(sprite)
+
+
+  addCarrot: (carrot)->
+    sprite = @.createCarrotSprite(carrot)
+
+    @carrot_sprites.push(sprite)
+
+    @object_layer.addChild(sprite)
+
+  createCarrotSprite: (object)->
+    sprite = PIXI.Sprite.fromFrame("carrot.png")
+    sprite.position.x = @.objectToSceneX(object.x)
+    sprite.position.y = @.objectToSceneY(object.y)
+    sprite.anchor.x = 0.5
+    sprite.anchor.y = 1
+    sprite.source = object
+    sprite.rotation = _.shuffle([-60, -45, -30, 30, 45, 60])[0] * Math.PI / 180
+    sprite
