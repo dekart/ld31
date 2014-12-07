@@ -27,9 +27,7 @@ window.Lumberjack = class
     @state = 'hitting'
     @last_hit_at = Date.now()
 
-  updateState: ->
-    current_time = Date.now()
-
+  updateState: (current_time)->
     @.updatePosition(current_time) if @state == 'moving'
     @.updateHitting(current_time) if @state == 'hitting'
 
@@ -43,7 +41,7 @@ window.Lumberjack = class
       @x = @target.x
       @y = @target.y
 
-      @.startHitting()
+      @.startHitting(current_time)
     else
       @x += @speed.x * @.pixelsPerSecond * delta
       @y += @speed.y * @.pixelsPerSecond * delta

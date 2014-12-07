@@ -15,6 +15,8 @@ window.GameAnimator = class extends Animator
     @stage.addChild(@background_layer)
     @stage.addChild(@object_layer)
 
+    @lumberjack_sprites = []
+
   activate: ->
     return unless super
 
@@ -37,8 +39,6 @@ window.GameAnimator = class extends Animator
       @object_layer.addChild(@.createTreeSprite())
 
     @object_layer.addChild(@snowman_sprite)
-
-    @lumberjack_sprites = []
 
     for jack in @controller.lumberjacks
       @.addLumberjack(jack)
@@ -86,6 +86,11 @@ window.GameAnimator = class extends Animator
       sprite.position.x = @.objectToSceneX(sprite.source.x)
       sprite.position.y = @.objectToSceneX(sprite.source.y)
 
+    if @controller.pine.got_hit
+      animation = new PineHitAnimation()
+      animation.start(@pine_sprite)
+
+      @controller.pine.got_hit = false
 
   sortSpritesByLayers: ->
     for sprite, index in _.sortBy(@object_layer.children, (c)-> c.position.y)

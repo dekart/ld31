@@ -6,9 +6,7 @@ window.Snowman = class
 
     @speed = {x: 0, y: 0}
 
-  updateState: ->
-    current_time = Date.now()
-
+  updateState: (current_time)->
     @.updatePosition(current_time)
 
   updatePosition: (current_time)->

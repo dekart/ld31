@@ -15,14 +15,8 @@ window.GameController = class extends BaseController
     @snowman = new Snowman(canvasSize.width / 2 - 50, canvasSize.height / 2)
 
     @lumberjacks = []
-
-    for i in [0 .. 10]
-      jack = new Lumberjack(Lumberjack.randomSpawnPosition()...)
-      jack.aimTo(@pine)
-
-      @lumberjacks.push(jack)
-
-    @lumberjacks.push(jack)
+    @lumberjack_emitted_at = 0
+    @lumberjacks_every = 2
 
   show: ->
     @.setupEventListeners()
@@ -46,10 +40,14 @@ window.GameController = class extends BaseController
 
   updateState: ->
     # Logic goes here
-    @snowman.updateState()
+    current_time = Date.now()
+
+    @.emitLumberjacks(current_time)
+
+    @snowman.updateState(current_time)
 
     for jack in @lumberjacks
-      jack.updateState()
+      jack.updateState(current_time)
 
     if @pine.health <= 0
       @.finish()
@@ -115,3 +113,13 @@ window.GameController = class extends BaseController
 
     alert('Game over!')
 
+  emitLumberjacks: (current_time)->
+    if current_time > @lumberjack_emitted_at + @lumberjacks_every * 1000
+      jack = new Lumberjack(Lumberjack.randomSpawnPosition()...)
+      jack.aimTo(@pine)
+
+      @lumberjacks.push(jack)
+
+      @animator.addLumberjack(jack)
+
+      @lumberjack_emitted_at = current_time

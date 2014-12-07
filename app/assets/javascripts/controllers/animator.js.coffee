@@ -5,7 +5,7 @@ window.canvasSize = {
 
 window.Animator = class
   @getRenderer: ()->
-    @renderer ?= PIXI.autoDetectRenderer(canvasSize.width, canvasSize.height)
+    @renderer ?= new PIXI.WebGLRenderer(canvasSize.width, canvasSize.height)
 
   constructor: (@controller)->
     @active = false
@@ -34,6 +34,8 @@ window.Animator = class
       @animation_requested = false
 
     return if @paused_at
+
+    createjs.Tween.tick(Date.now() - @last_tick || 0)
 
     @last_tick = Date.now()
 
