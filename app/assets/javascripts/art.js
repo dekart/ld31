@@ -140,6 +140,20 @@ var artSprite = {
     "sourceSize": {"w":11,"h":11}
   }, 
 
+  "snowflake.png":
+  {
+    "frame": {"x":94,"y":91,"w":10,"h":10},
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": {
+      "x":0,
+      "y":0,
+      "w":10,
+      "h":10
+    },
+    "sourceSize": {"w":10,"h":10}
+  }, 
+
   "snowman_down.png":
   {
     "frame": {"x":230,"y":52,"w":48,"h":42},
@@ -226,4 +240,4 @@ var artSprite = {
 
 };
 
-/* $TexturePacker:SmartUpdate:b7ac36014bfdbeccc34f023ec0c64f74:c1859718d9ff0682bc87c5b2aefbd1b4:b4690bc4e9404001c1481325e4112eb5$ */
+/* $TexturePacker:SmartUpdate:0337b73d469ba96e2801b0ba84816e13:51663612a3dbc210fa8d3f782f669bca:b4690bc4e9404001c1481325e4112eb5$ */

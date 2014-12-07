@@ -29,11 +29,11 @@ window.Lumberjack = class
     @state = 'hitting'
     @last_hit_at = Date.now()
 
-  updateState: (current_time)->
-    @.updatePosition(current_time) if @state == 'moving'
-    @.updateHitting(current_time) if @state == 'hitting'
+  updateState: ->
+    @.updatePosition() if @state == 'moving'
+    @.updateHitting() if @state == 'hitting'
 
-  updatePosition: (current_time)->
+  updatePosition: ->
     delta = (current_time - @last_position_update_at) / 1000
 
     dx = Math.abs(@target.x - @x)
@@ -43,14 +43,14 @@ window.Lumberjack = class
       @x = @target.x
       @y = @target.y
 
-      @.startHitting(current_time)
+      @.startHitting()
     else
       @x += @speed.x * delta
       @y += @speed.y * delta
 
     @last_position_update_at = current_time
 
-  updateHitting: (current_time)->
+  updateHitting: ->
     delta = (current_time - @last_hit_at) / 1000
 
     if delta >= @.hitEvery
@@ -87,6 +87,9 @@ window.Lumberjack = class
       15,
       25
     ]
+
+  canHitSnowman: (snowman)->
+    Math.abs(snowman.x - @x) < 15 and Math.abs(snowman.y - @y) < 25
 
   takeHit: ->
     @health -= 1

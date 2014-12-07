@@ -1,23 +1,36 @@
 window.Snowman = class
   pixelsPerSecond: 100
+  hitFallbackTime: 0.3
 
   constructor: (@x, @y)->
     @last_position_update_at = Date.now()
 
     @speed = {x: 0, y: 0}
+    @fallback = {x: 0, y: 0}
 
     @carrots = 0
+    @health = 5
 
-  updateState: (current_time)->
-    @.updatePosition(current_time)
+    @took_hit_at = null
 
-  updatePosition: (current_time)->
+  updateState: ->
+    @.updatePosition()
+
+  updatePosition: ->
     delta = (current_time - @last_position_update_at) / 1000
 
-    @x += @speed.x * @.pixelsPerSecond * delta
-    @y += @speed.y * @.pixelsPerSecond * delta
+    if @took_hit_at?
+
+      @x += @fallback.x * @.pixelsPerSecond * delta
+      @y += @fallback.y * @.pixelsPerSecond * delta
+    else
+      @x += @speed.x * @.pixelsPerSecond * delta
+      @y += @speed.y * @.pixelsPerSecond * delta
 
     @last_position_update_at = current_time
+
+    if current_time > @took_hit_at + @.hitFallbackTime * 1000
+      @took_hit_at = null
 
   takeCarrot: (carrot)->
     dx = Math.abs(carrot.x - @x)
@@ -50,3 +63,12 @@ window.Snowman = class
       'down_right'
     else
       'down'
+
+  takeHit: ->
+    @health -= 1
+    @took_hit_at = current_time
+
+    @fallback.x = _.shuffle([-2, -1, 1, 2])[0]
+    @fallback.y = _.shuffle([-2, -1, 1, 2])[0]
+
+    console.log(@health)

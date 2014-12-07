@@ -16,7 +16,7 @@ window.GameController = class extends BaseController
 
     @lumberjacks = []
     @lumberjack_emitted_at = 0
-    @lumberjacks_every = 1000#2
+    @lumberjacks_every = 3
 
     @shooting = false
     @snowballs = []
@@ -25,7 +25,7 @@ window.GameController = class extends BaseController
 
     @rabbit = null
     @rabbit_emitted_at = 0
-    @rabbit_every = 1#5
+    @rabbit_every = 5
 
     @carrots = []
 
@@ -51,46 +51,50 @@ window.GameController = class extends BaseController
 
   updateState: ->
     # Logic goes here
-    current_time = Date.now()
+    window.current_time = Date.now()
 
     # Snowman checks
 
-    @snowman.updateState(current_time)
+    @snowman.updateState()
 
     @.checkCarrotCollection()
     @.checkCarrotDelivery()
 
     # Snowball checks
 
-    @.emitSnowballs(current_time)
+    @.emitSnowballs()
 
     for snowball in @snowballs
-      snowball.updateState(current_time)
+      snowball.updateState()
 
     @.checkSnowballCollisions()
     @.checkSnowballExpiration()
 
     # Lumberjack checks
 
-    @.emitLumberjacks(current_time)
+    @.emitLumberjacks()
     @.checkLumberjackHealth()
 
     for jack in @lumberjacks
-      jack.updateState(current_time)
+      jack.updateState()
+
+    @.checkSnowmanHit()
 
     # Rabbit checks
 
-    @.emitRabbit(current_time)
+    @.emitRabbit()
 
-    @rabbit?.updateState(current_time)
+    @rabbit?.updateState()
 
-    @.checkRabbitExpiration(current_time)
+    @.checkRabbitExpiration()
 
-    @.emitCarrots(current_time)
-    @.checkCarrotExpiration(current_time)
+    @.emitCarrots()
+    @.checkCarrotExpiration()
 
     if @pine.health <= 0
       @.finish('chopped')
+    else if @snowman.health <= 0
+      @.finish('destroyed')
     else if @pine.isBeautiful()
       @.finish('beautified')
 
@@ -157,11 +161,13 @@ window.GameController = class extends BaseController
 
     switch result
       when 'chopped'
-        console.log('Game over!')
+        console.log('Game over! Tree has been chopped!')
+      when 'destroyed'
+        console.log('Game over! Snowman has been destroyed!')
       when 'beautified'
         alert('Merry Christmas!')
 
-  emitLumberjacks: (current_time)->
+  emitLumberjacks: ->
     if current_time > @lumberjack_emitted_at + @lumberjacks_every * 1000
       jack = new Lumberjack(Lumberjack.randomSpawnPosition()...)
       jack.aimTo(@pine)
@@ -186,7 +192,7 @@ window.GameController = class extends BaseController
 
     @lumberjacks.splice(@lumberjacks.indexOf(lumberjack), 1)
 
-  emitSnowballs: (current_time)->
+  emitSnowballs: ->
     if @shooting and current_time > @snowball_emitted_at + @snowballs_every * 1000
       snowball = new Snowball(@snowman.x, @snowman.y - 25)
       snowball.aimTo(@mouse_position)
@@ -223,7 +229,7 @@ window.GameController = class extends BaseController
 
     @snowballs.splice(@snowballs.indexOf(snowball), 1)
 
-  emitRabbit: (current_time)->
+  emitRabbit: ->
     if not @rabbit and current_time > @rabbit_emitted_at + @rabbit_every * 1000
       @rabbit_emitted_at = current_time
 
@@ -231,7 +237,7 @@ window.GameController = class extends BaseController
 
       @animator.addRabbit(@rabbit)
 
-  checkRabbitExpiration: (current_time)->
+  checkRabbitExpiration: ->
     if @rabbit?.isOutOfBounds()
       @rabbit_emitted_at = current_time
 
@@ -239,22 +245,22 @@ window.GameController = class extends BaseController
 
       @rabbit = null
 
-  emitCarrots: (current_time)->
-    if @rabbit?.dropCarrot(current_time)
+  emitCarrots: ->
+    if @rabbit?.dropCarrot()
       carrot = new Carrot(@rabbit.x, @rabbit.y)
 
       @animator.addCarrot(carrot)
 
       @carrots.push(carrot)
 
-  checkCarrotExpiration: (current_time)->
+  checkCarrotExpiration: ->
     expired = []
 
     for carrot in @carrots
-      if carrot.isExpired(current_time)
+      if carrot.isExpired()
         expired.push(carrot)
       else
-        carrot.checkExpirationState(current_time)
+        carrot.checkExpirationState()
 
     for carrot in expired
       @.removeCarrot(carrot)
@@ -279,3 +285,12 @@ window.GameController = class extends BaseController
       @pine.carrots += @snowman.carrots
 
       @snowman.deliverCarrots()
+
+
+  checkSnowmanHit: ->
+    return if @snowman.took_hit_at?
+
+    for lumberjack in @lumberjacks
+      if lumberjack.canHitSnowman(@snowman)
+        @snowman.takeHit()
+        @animator.hitSnowman()

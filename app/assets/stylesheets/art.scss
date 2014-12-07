@@ -1,10 +1,10 @@
 $art_image_url: image-url('art.png');
 
-$art_piece_names: carrot, lumberjack_down, lumberjack_down_side, lumberjack_side, lumberjack_up, lumberjack_up_side, pine, rabbit_jumping, rabbit_sitting, snowball, snowman_down, snowman_down_side, snowman_side, snowman_up, snowman_up_side, tree;
-$art_piece_widths: 17px, 32px, 32px, 32px, 32px, 32px, 90px, 40px, 40px, 11px, 48px, 48px, 48px, 48px, 48px, 66px;
-$art_piece_heights: 30px, 48px, 48px, 48px, 48px, 48px, 100px, 40px, 40px, 11px, 42px, 42px, 42px, 42px, 42px, 74px;
-$art_piece_positions_x: 406px, 162px, 162px, 196px, 196px, 230px, 2px, 364px, 380px, 94px, 230px, 264px, 280px, 314px, 330px, 94px;
-$art_piece_positions_y: 2px, 2px, 52px, 2px, 52px, 2px, 2px, 2px, 44px, 78px, 52px, 2px, 46px, 2px, 46px, 2px;
+$art_piece_names: carrot, lumberjack_down, lumberjack_down_side, lumberjack_side, lumberjack_up, lumberjack_up_side, pine, rabbit_jumping, rabbit_sitting, snowball, snowflake, snowman_down, snowman_down_side, snowman_side, snowman_up, snowman_up_side, tree;
+$art_piece_widths: 17px, 32px, 32px, 32px, 32px, 32px, 90px, 40px, 40px, 11px, 10px, 48px, 48px, 48px, 48px, 48px, 66px;
+$art_piece_heights: 30px, 48px, 48px, 48px, 48px, 48px, 100px, 40px, 40px, 11px, 10px, 42px, 42px, 42px, 42px, 42px, 74px;
+$art_piece_positions_x: 406px, 162px, 162px, 196px, 196px, 230px, 2px, 364px, 380px, 94px, 94px, 230px, 264px, 280px, 314px, 330px, 94px;
+$art_piece_positions_y: 2px, 2px, 52px, 2px, 52px, 2px, 2px, 2px, 44px, 78px, 91px, 52px, 2px, 46px, 2px, 46px, 2px;
 
 @function art-sprite-width($name) {
   $index: index($art_piece_names, $name);
@@ -57,4 +57,4 @@ $art_piece_positions_y: 2px, 2px, 52px, 2px, 52px, 2px, 2px, 2px, 44px, 78px, 52
   @include art-sprite-background($name);
 }
 
-// $TexturePacker:SmartUpdate:b7ac36014bfdbeccc34f023ec0c64f74:c1859718d9ff0682bc87c5b2aefbd1b4:b4690bc4e9404001c1481325e4112eb5$
+// $TexturePacker:SmartUpdate:0337b73d469ba96e2801b0ba84816e13:51663612a3dbc210fa8d3f782f669bca:b4690bc4e9404001c1481325e4112eb5$

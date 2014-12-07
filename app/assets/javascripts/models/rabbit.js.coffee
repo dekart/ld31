@@ -19,10 +19,10 @@ window.Rabbit = class
   startMoving: ->
     @last_position_update_at = Date.now()
 
-  updateState: (current_time)->
-    @.updatePosition(current_time)
+  updateState: ->
+    @.updatePosition()
 
-  updatePosition: (current_time)->
+  updatePosition: ->
     delta = (current_time - @last_position_update_at) / 1000
 
     @x += @pixelsPerSecond * delta * @speed
@@ -32,7 +32,7 @@ window.Rabbit = class
   isOutOfBounds: ->
     @x < -75 or @x > canvasSize.width + 75
 
-  dropCarrot: (current_time)->
+  dropCarrot: ->
     if not @carrot_dropped and current_time > @drop_carrot_at
       @carrot_dropped = true
 

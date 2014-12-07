@@ -12,10 +12,10 @@ window.Snowball = class
   startMoving: ->
     @last_position_update_at = Date.now()
 
-  updateState: (current_time)->
-    @.updatePosition(current_time)
+  updateState: ->
+    @.updatePosition()
 
-  updatePosition: (current_time)->
+  updatePosition: ->
     delta = (current_time - @last_position_update_at) / 1000
 
     @x += @speed.x * delta

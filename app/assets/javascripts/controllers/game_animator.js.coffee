@@ -18,9 +18,11 @@ window.GameAnimator = class extends Animator
 
     @background_layer = new PIXI.DisplayObjectContainer()
     @object_layer = new PIXI.DisplayObjectContainer()
+    @snowflake_layer = new SnowflakeEmitter()
 
     @stage.addChild(@background_layer)
     @stage.addChild(@object_layer)
+    @stage.addChild(@snowflake_layer)
 
     @lumberjack_sprites = []
     @snowball_sprites = []
@@ -111,10 +113,10 @@ window.GameAnimator = class extends Animator
       @rabbit_sprite.position.y = @.objectToSceneY(@rabbit_sprite.source.y)
 
     for sprite in @carrot_sprites
-      sprite.position.y = @.objectToSceneY(sprite.source.y + 2 * Math.sin((Date.now() - sprite.source.created_at) / 500))
+      sprite.position.y = @.objectToSceneY(sprite.source.y + 2 * Math.sin((current_time - sprite.source.created_at) / 500))
 
       if sprite.source.expiring_soon
-        sprite.alpha = 0.5 + 0.5 * Math.sin((Date.now() - sprite.source.created_at) / 70)
+        sprite.alpha = 0.5 + 0.5 * Math.sin((current_time - sprite.source.created_at) / 70)
 
     if @controller.pine.got_hit
       animation = new PineHitAnimation()
@@ -124,6 +126,8 @@ window.GameAnimator = class extends Animator
 
     for carrot, i in @pine_sprite.carrots
       carrot.visible = (@controller.pine.carrots > i)
+
+    @snowflake_layer.update()
 
   sortSpritesByLayers: ->
     for sprite, index in _.sortBy(@object_layer.children, (c)-> c.position.y)
@@ -349,4 +353,6 @@ window.GameAnimator = class extends Animator
 
     @object_layer.removeChild(sprite)
 
-  deliverCarrots: ->
+  hitSnowman: ->
+    @snowman_hit_animation ?= new SnowmanHitAnimation()
+    @snowman_hit_animation.start(@snowman_sprite)
