@@ -87,7 +87,7 @@ window.GameController = class extends BaseController
     @.checkRabbitExpiration(current_time)
 
     @.emitCarrots(current_time)
-
+    @.checkCarrotExpiration(current_time)
 
     if @pine.health <= 0
       @.finish('chopped')
@@ -247,6 +247,23 @@ window.GameController = class extends BaseController
 
       @carrots.push(carrot)
 
+  checkCarrotExpiration: (current_time)->
+    expired = []
+
+    for carrot in @carrots
+      if carrot.isExpired(current_time)
+        expired.push(carrot)
+      else
+        carrot.checkExpirationState(current_time)
+
+    for carrot in expired
+      @.removeCarrot(carrot)
+
+  removeCarrot: (carrot)->
+    @animator.removeCarrot(carrot)
+
+    @carrots.splice(@carrots.indexOf(carrot), 1)
+
   checkCarrotCollection: ->
     collected = []
 
@@ -255,9 +272,7 @@ window.GameController = class extends BaseController
         collected.push(carrot)
 
     for carrot in collected
-      @animator.removeCarrot(carrot)
-
-      @carrots.splice(@carrots.indexOf(carrot), 1)
+      @.removeCarrot(carrot)
 
   checkCarrotDelivery: ->
     if @snowman.carrots > 0 and @pine.y - 75 < @snowman.y < @pine.y + 25 and @pine.x - 45 < @snowman.x < @pine.x + 45

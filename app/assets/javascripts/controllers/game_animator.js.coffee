@@ -113,6 +113,9 @@ window.GameAnimator = class extends Animator
     for sprite in @carrot_sprites
       sprite.position.y = @.objectToSceneY(sprite.source.y + 2 * Math.sin((Date.now() - sprite.source.created_at) / 500))
 
+      if sprite.source.expiring_soon
+        sprite.alpha = 0.5 + 0.5 * Math.sin((Date.now() - sprite.source.created_at) / 70)
+
     if @controller.pine.got_hit
       animation = new PineHitAnimation()
       animation.start(@pine_sprite)
