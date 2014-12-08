@@ -38,13 +38,11 @@ window.Sounds2 = class
   playSound: (key)->
     player = @.getFreePlayer()
 
-    player.src = player.src
-    player.currentTime = @.sounds[key][0]
-    player.stop_at = @.sounds[key][1]
+    if player.readyState == player.HAVE_ENOUGH_DATA
+      player.currentTime = @.sounds[key][0]
+      player.stop_at = @.sounds[key][1]
 
-    console.log('start:', player.currentTime)
-
-    player.play()
+      player.play()
 
   # binds to player
   onPlayerTimeUpdate: (player)->
@@ -52,6 +50,3 @@ window.Sounds2 = class
       player.pause()
 
       delete player.stop_at
-
-      console.log('done')
-
