@@ -5,7 +5,7 @@ window.canvasSize = {
 
 window.Animator = class
   @getRenderer: ()->
-    @renderer ?= new PIXI.WebGLRenderer(canvasSize.width, canvasSize.height)
+    @renderer ?= PIXI.autoDetectRenderer(canvasSize.width, canvasSize.height)
 
   constructor: (@controller)->
     @active = false
