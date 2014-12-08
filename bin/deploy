@@ -1,4 +1,11 @@
+echo "Deploying to $2"
+echo "Make sure to restart server in production mode at $1"
+
 RAILS_ENV=production bundle exec rake assets:clobber assets:precompile
-git add public/assets
-git commit -am "Updated precompiled assets"
-git push heroku master
+
+curl http://$1/ -o ./public/index.html
+
+rsync -rv public $2/
+
+rm -rf public/index.html public/assets
+
