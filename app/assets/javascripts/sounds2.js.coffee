@@ -38,7 +38,7 @@ window.Sounds2 = class
   playSound: (key)->
     player = @.getFreePlayer()
 
-    if player.readyState == player.HAVE_ENOUGH_DATA
+    if player.readyState == player.HAVE_ENOUGH_DATA or player.readyState == player.HAVE_CURRENT_DATA
       player.currentTime = @.sounds[key][0]
       player.stop_at = @.sounds[key][1]
 

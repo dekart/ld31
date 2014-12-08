@@ -3,7 +3,7 @@ window.Snowman = class
   hitFallbackTime: 0.3
 
   constructor: (@x, @y)->
-    @last_position_update_at = Date.now()
+    @last_position_update_at = current_time
 
     @speed = {x: 0, y: 0}
     @fallback = {x: 0, y: 0}

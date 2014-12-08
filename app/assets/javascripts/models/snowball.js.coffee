@@ -5,12 +5,12 @@ window.Snowball = class
   constructor: (@x, @y)->
     @speed = {x: 0, y: 0}
 
-    @created_at = Date.now()
+    @created_at = current_time
 
     @.startMoving()
 
   startMoving: ->
-    @last_position_update_at = Date.now()
+    @last_position_update_at = current_time
 
   updateState: ->
     @.updatePosition()
@@ -42,4 +42,4 @@ window.Snowball = class
     Math.abs(tx - @x) <= tw and Math.abs(ty - @y) <= th
 
   isExpired: ->
-    Date.now() > @created_at + @lifetime * 1000
+    current_time > @created_at + @lifetime * 1000

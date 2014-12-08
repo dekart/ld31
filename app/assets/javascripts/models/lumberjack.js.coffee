@@ -23,11 +23,11 @@ window.Lumberjack = class
 
   startMoving: ->
     @state = 'moving'
-    @last_position_update_at = Date.now()
+    @last_position_update_at = current_time
 
   startHitting: ->
     @state = 'hitting'
-    @last_hit_at = Date.now()
+    @last_hit_at = current_time
 
   updateState: ->
     @.updatePosition() if @state == 'moving'

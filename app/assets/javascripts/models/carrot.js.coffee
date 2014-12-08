@@ -2,7 +2,7 @@ window.Carrot = class
   lifspan: 10
 
   constructor: (@x, @y)->
-    @created_at = Date.now()
+    @created_at = current_time
     @expire_at = @created_at + @.lifspan * 1000
     @expiring_soon = false
 

@@ -2,12 +2,10 @@ window.Rabbit = class
   pixelsPerSecond: 100
 
   constructor: ->
-    @created_at = Date.now()
+    @created_at = current_time
 
     @x = _.shuffle([-50, canvasSize.width + 50])[0]
     @y = _.random(100, canvasSize.height / 2 - 50) * _.shuffle([-1, 1])[0] + canvasSize.height / 2
-
-    console.log(@y)
 
     @speed = if @x < 0 then 1 else -1
 
@@ -17,7 +15,7 @@ window.Rabbit = class
     @.startMoving()
 
   startMoving: ->
-    @last_position_update_at = Date.now()
+    @last_position_update_at = current_time
 
   updateState: ->
     @.updatePosition()

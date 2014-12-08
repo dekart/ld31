@@ -31,6 +31,8 @@ window.Application = class
     $('#preloader').hide()
     $('#canvas_container').css(visibility: 'visible')
 
+    window.current_time = Date.now()
+
     @game = new GameController()
     @game.show()
 
