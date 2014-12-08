@@ -120,8 +120,14 @@ window.GameController = class extends BaseController
     touchpoint = if event.originalEvent.touches? then event.originalEvent.touches[0] else event
 
     if touchpoint
-      @mouse_position.x = touchpoint.offsetX
-      @mouse_position.y = touchpoint.offsetY
+      if touchpoint.offsetX?
+        @mouse_position.x = touchpoint.offsetX
+        @mouse_position.y = touchpoint.offsetY
+      else
+        @offset ?= $(@el).offset()
+
+        @mouse_position.x = touchpoint.pageX - @offset.left
+        @mouse_position.y = touchpoint.pageY - @offset.top
 
   onTouchStart: (e)=>
     e.preventDefault()
