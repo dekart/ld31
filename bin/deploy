@@ -1,11 +1,10 @@
-echo "Deploying to $2"
-echo "Make sure to restart server in production mode at $1"
+echo "Deploying to $1"
 
 RAILS_ENV=production bundle exec rake assets:clobber assets:precompile
 
-curl http://$1/ -o ./public/index.html
+RAILS_ENV=production bundle exec rails runner "app = ActionDispatch::Integration::Session.new(Rails.application); app.get '/'; File.open(Rails.root.join('public/index.html'), 'w+'){|f| f.write(app.response.body) } "
 
-rsync -rv public $2/
+rsync -rv public $1/
 
-rm -rf public/index.html public/assets
+rm -rf public/index.html
 
